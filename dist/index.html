@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f3">
+  <meta name="description" content="TwinPast: 350 paired histories, five historical tasks, and one shared recent context. A benchmark for historical evidence use in streaming video understanding.">
+  <meta property="og:title" content="TwinPast — Same recent frames. Different answers.">
+  <meta property="og:description" content="Controlled historical contrasts under identical recent observations. Explore the evidence, paired evaluation, and findings from TwinPast.">
+  <meta property="og:type" content="website">
+  <title>TwinPast — The answer is in the history.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="project.css">
+  <script defer src="cases.js"></script>
+  <script defer src="results.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="project.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav wrap" aria-label="Main navigation"><a class="wordmark" href="#" aria-label="TwinPast home"><img src="assets/favicon.svg" alt="" width="30" height="30">TwinPast<span class="wordmark-dot">.</span></a><div class="nav-links"><a href="#design">Design</a><a href="#explore">Examples</a><a href="#results">Results</a><a href="#paper">Paper details</a></div></nav></header>
+  <main id="main">
+    <section class="hero wrap" id="design" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">Same recent frames.<br><em>Different answers.</em></h1>
+        <p class="hero-description">Change the historical evidence that decides the answer.<br class="desktop-break"> Keep unrelated visual context as closely matched as possible.</p>
+      </div>
+      <div class="hero-visual evidence-demo">
+        <div class="concept-heading"><h2>Was a boat visible earlier?</h2><span>One question, asked of both videos.</span></div>
+        <div class="hero-view-controls" role="group" aria-label="Compare historical or recent frames"><button data-hero-view="history" aria-pressed="true">1. Different historical evidence</button><button data-hero-view="recent" aria-pressed="false">2. Identical recent frames</button></div>
+        <div class="hero-history-grid" id="hero-frame-pair">
+          <figure class="history-still a"><figcaption><i></i> History 01</figcaption><div class="evidence-image"><img id="hero-frame-a" src="assets/media/pilot_r3_00073-A.jpg" alt="Rocky beach without the queried boat in the left foreground" width="640" height="360"><span class="evidence-region" aria-hidden="true"></span></div><span class="still-caption" id="hero-caption-a">Boat absent → No</span></figure>
+          <figure class="history-still b"><figcaption><i></i> History 02</figcaption><div class="evidence-image"><img id="hero-frame-b" src="assets/media/pilot_r3_00073-B.jpg" alt="Corresponding beach with the queried blue-green boat in the left foreground" width="640" height="360"><span class="evidence-region" aria-hidden="true"></span></div><span class="still-caption" id="hero-caption-b">Boat present → Yes</span></figure>
+        </div>
+        <div class="fixed-context"><span class="equals-sign" aria-hidden="true">=</span><p><strong>Recent frames, question, and options stay identical.</strong><span id="hero-demo-note" role="status">The earlier boat evidence determines the answer.</span></p></div>
+        <a class="concept-video-link" href="#explore" data-explore-pair="pilot_r3_00073">Watch this video pair <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="success-rule"><span class="rule-icon" aria-hidden="true">✓✓</span><div><h2>Both answers must be correct.</h2><p>One correct answer can be a guess. <strong>PairAcc</strong> requires success on both histories.</p></div></div>
+      <div class="hero-meta"><p><strong>350</strong> reviewed pairs <span>·</span> <strong>700</strong> videos <span>·</span> <strong>5</strong> tasks</p><a class="button primary" href="#explore">Explore all examples <span aria-hidden="true">↓</span></a></div>
+      <details class="reading-details prominent-disclosure design-details"><summary><span>How the pairs are constructed and scored</span><span class="disclosure-action"><span class="when-closed">Click to expand</span><span class="when-open">Click to collapse</span><span class="detail-plus" aria-hidden="true">+</span></span></summary><div class="details-body"><p class="reading-intro">We contrast the queried attribute, state, event, count, or temporal relationship. Backgrounds, viewpoints, and unrelated objects are matched as closely as the source material permits; the recent frames are identical.</p><p>Every pair, question, and answer key receives human review after automatic and AI-assisted checks. Residual differences can remain in the histories. The boxes above highlight the queried region; they are not exact editing masks.</p>
+      <div class="pair-explainer" aria-labelledby="pair-rule-title">
+        <div class="pair-rule-copy"><span class="tiny-label">WHY EVALUATE A PAIR?</span><h3 id="pair-rule-title">Two correct answers.<br>One successful pair.</h3><p>The videos are evaluated independently. Repeating an answer favored by their shared inputs can get one branch right, but cannot solve the pair.</p><p class="rule-scope">Illustration using the boat example. These are example predictions, not model results.</p></div>
+        <div class="pair-rule-demo">
+          <div class="rule-controls" role="group" aria-label="Example answer patterns"><button data-answer-pattern="repeat" aria-pressed="true">Repeat an answer</button><button data-answer-pattern="correct" aria-pressed="false">Follow the evidence</button><button data-answer-pattern="reverse" aria-pressed="false">Reverse the answers</button></div>
+          <div class="rule-predictions"><div><span>History 01 · boat absent</span><strong id="rule-answer-a">No <small>Correct</small></strong></div><div><span>History 02 · boat present</span><strong id="rule-answer-b">No <small>Incorrect</small></strong></div></div>
+          <div class="rule-scores" role="status" aria-live="polite"><div><span>Individual accuracy</span><strong id="rule-accuracy">50%</strong></div><div><span>Pair success</span><strong id="rule-pair">0%</strong></div><p id="rule-explanation">One correct answer is not enough to solve this pair.</p></div>
+        </div>
+      </div>
+      </div></details>
+    </section>
+    <section class="explore-section wrap" id="explore" aria-labelledby="explore-title">
+      <div class="section-heading"><div><p class="eyebrow">EXPLORE THE DATASET</p><h2 id="explore-title">Watch the evidence change.</h2></div><p>Eight video pairs. Five historical tasks.</p></div>
+      <div class="task-tabs" role="tablist" aria-label="Historical tasks" id="task-tabs">
+        <button role="tab" id="tab-AIR" aria-controls="pair-panel" aria-selected="true" data-task="AIR"><span>01 · AIR</span><strong>Attributes & identity</strong></button>
+        <button role="tab" id="tab-HSR" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="HSR"><span>02 · HSR</span><strong>Historical states</strong></button>
+        <button role="tab" id="tab-EOR" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="EOR"><span>03 · EOR</span><strong>Event order</strong></button>
+        <button role="tab" id="tab-HAC" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="HAC"><span>04 · HAC</span><strong>Action counting</strong></button>
+        <button role="tab" id="tab-MEI" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="MEI"><span>05 · MEI</span><strong>Multi-event integration</strong></button>
+      </div>
+      <div class="pair-panel" id="pair-panel" role="tabpanel" aria-labelledby="tab-AIR">
+        <div class="pair-intro"><div><span class="task-code" id="task-code">AIR</span><h3 id="task-title">Attribute and Identity Recall</h3></div><span class="pair-count" id="pair-count">92 pairs in this task</span></div>
+        <p class="task-description" id="task-description">Retrieve an entity's identity or attributes from an earlier event.</p>
+        <div class="example-selector" id="example-selector" hidden><span class="tiny-label">EXPLORE EXAMPLES</span><div class="example-buttons" id="example-buttons" role="group" aria-label="Examples within this task"></div><span class="example-position" id="example-position" role="status" aria-live="polite"></span></div>
+        <div class="question-prompt"><span class="tiny-label">SAME QUESTION FOR BOTH VIDEOS</span><h4 id="question-text"></h4></div>
+        <div class="video-grid">
+          <figure class="video-card a"><figcaption><span><i></i> History 01</span><span class="phase-tag">HISTORICAL CONTEXT</span></figcaption><div class="video-container"><video id="video-a" playsinline muted preload="none" poster="assets/media/AIR-A.jpg" aria-label="Video for history 01"></video><button class="video-overlay" data-play aria-label="Play both histories"><span aria-hidden="true">▶</span></button><button class="fullscreen-button" data-fullscreen="a" aria-label="View history 01 fullscreen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></div></figure>
+          <figure class="video-card b"><figcaption><span><i></i> History 02</span><span class="phase-tag">HISTORICAL CONTEXT</span></figcaption><div class="video-container"><video id="video-b" playsinline muted preload="none" poster="assets/media/AIR-B.jpg" aria-label="Video for history 02"></video><button class="video-overlay" data-play aria-label="Play both histories"><span aria-hidden="true">▶</span></button><button class="fullscreen-button" data-fullscreen="b" aria-label="View history 02 fullscreen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></div></figure>
+        </div>
+        <div class="player-controls"><button class="play-button" id="play-pair" aria-label="Play both histories"><span id="play-symbol" aria-hidden="true">▶</span><span id="play-label">Play together</span></button><span class="time-display"><span id="elapsed">0:00</span> <span class="muted">/ <span id="duration">0:45</span></span></span><label class="speed-control"><span>Speed</span><select id="playback-rate" aria-label="Playback speed"><option value="1">1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><span class="sync-indicator"><i></i> Synced playback</span></div>
+        <div class="timeline-block"><div class="timeline-labels"><span>Historical evidence</span><span>Identical recent context</span></div><div class="timeline-track" id="timeline-track"><span class="suffix-marker" id="suffix-marker" aria-hidden="true"></span><input id="timeline" type="range" min="0" max="45.458" step="0.1" value="0" aria-label="Seek both videos" aria-valuetext="0:00"></div><div class="timeline-actions"><button class="small-link" id="jump-evidence">↶ Key historical evidence</button><button class="small-link" id="jump-shared">Shared ending →</button></div></div>
+        <p id="player-status" class="player-status" role="status" aria-live="polite">Choose play to load this pair. All videos retain their full timeline.</p>
+        <div class="question-block"><div class="question-content"><ol id="question-options" class="question-options" type="A"></ol><div class="answer-grid"><div class="answer-line" id="answer-a"><span>History 01 · correct answer</span><strong>Reveal below</strong></div><div class="answer-line" id="answer-b"><span>History 02 · correct answer</span><strong>Reveal below</strong></div></div><div class="reveal-row"><button id="reveal-answers" class="button dark" aria-expanded="false">Reveal the two answers <span aria-hidden="true">↗</span></button><p id="reveal-note">The recent context is shared.<br>The earlier evidence tells them apart.</p></div></div></div>
+      </div>
+    </section>
+
+
+    <section class="results-section wrap" id="results" aria-labelledby="results-title">
+      <div class="results-focus">
+        <div class="results-message"><p class="eyebrow">THE KEY RESULT</p><h2 id="results-title">History makes<br>the difference.</h2><p class="results-thesis">Correct individual answers can coexist with almost no correctly solved pairs.</p><p>On TwinPast, access to earlier evidence improves paired success for both tested models.</p><a class="text-link" href="#full-results" data-open-details="full-results">Explore the full results <span aria-hidden="true">↓</span></a></div>
+        <div class="comparison-card"><div class="chart-header"><h3>How many pairs are solved?</h3><label class="model-picker"><span>Model</span><select id="comparison-model"><option value="Qwen3-VL-8B">Qwen3-VL-8B</option><option value="DeepSeek-Flash">DeepSeek-Flash</option></select></label></div><div id="comparison-bars" class="comparison-bars"></div><div class="chart-scale" aria-hidden="true"><span>0%</span><span>50%</span><span>100%</span></div><p class="comparison-insight"><strong id="comparison-gain">+34.00</strong><span>percentage points in PairAcc<br>when historical input is available</span></p></div>
+      </div>
+      <div class="results-reading">
+        <details class="reading-details" id="audit-details"><summary><span>Why test historical evidence separately?</span><span class="detail-plus" aria-hidden="true">+</span></summary><div class="details-body">
+          <div class="audit-grid"><div><h3>Recent frames may already give the answer.</h3><p>In an additional audit of OVO-Bench and StreamingBench, recent frames suffice for <strong>32% of 400 sampled historical questions</strong>.</p></div><div><h3>The question itself can suggest an answer.</h3><p>With no visual input, Qwen3-VL-8B and DeepSeek-Flash reach <strong>40.83% and 49.60% accuracy</strong> on the same 4,276 questions across the two benchmarks.</p></div></div>
+          <p>TwinPast fixes the recent view and the question. Repeating an answer favored by this shared information cannot solve both histories.</p>
+          <p class="supporting-note">Paper §3. The 32% describes the additional historical-task sample, not either benchmark as a whole. The text-only figures cover the full evaluated question set.</p>
+          <div class="input-reversal"><h3>The input ranking changes</h3><p>Selected model: <strong id="ranking-model">Qwen3-VL-8B</strong></p><div role="table" aria-label="Recent versus historical input, compared within each benchmark"><div class="reversal-row reversal-head" role="row"><span role="columnheader">Benchmark / metric</span><span role="columnheader">Recent 4 frames</span><span role="columnheader">History 64 frames</span></div><div id="input-ranking" role="rowgroup"></div></div><p class="supporting-note">Paper Tables 1–2. Compare inputs within each row: metrics and aggregation rules differ between benchmarks. These input conditions do not isolate the effect of frame count alone.</p></div>
+        </div></details>
+        <details class="reading-details prominent-disclosure" id="full-results"><summary><span>Full benchmark results <small>34 configurations + 2 human references</small></span><span class="disclosure-action"><span class="when-closed">Click to expand</span><span class="when-open">Click to collapse</span><span class="detail-plus" aria-hidden="true">+</span></span></summary><div class="details-body">
+          <div class="table-intro"><p>Paper Table 2. Task scores and Acc. measure individual answers; <strong>PairAcc</strong> requires both histories to be correct.</p><a class="text-link csv-link" href="assets/results.csv" download="twinpast-table-2.csv">Download CSV ↗</a></div>
+          <p>Evaluated streaming systems reach <strong>0.29–49.14%</strong> PairAcc; general-purpose native-video models reach <strong>66.57–91.43%</strong>. Input and inference protocols differ, so settings remain separate.</p>
+      <div class="result-filters" aria-label="Filter model settings" id="result-filters"><button data-group="all" aria-pressed="false">All settings</button><button data-group="A" aria-pressed="true">Streaming</button><button data-group="B" aria-pressed="false">Offline video</button><button data-group="C" aria-pressed="false">General-purpose</button><button data-group="D" aria-pressed="false">Recent window</button><button data-group="E" aria-pressed="false">Text only</button><button data-group="F" aria-pressed="false">Human</button></div>
+      <div class="table-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><input id="model-search" type="search" placeholder="Find a model…" aria-label="Find a model"></label><div><label class="diagnostic-toggle"><input id="show-diagnostics" type="checkbox"> Paired diagnostics</label><label class="sort-control"><span class="visually-hidden">Sort results within each setting</span><select id="result-sort"><option value="paper">Paper order</option><option value="pair">PairAcc ↓</option><option value="acc">Accuracy ↓</option></select></label></div></div>
+      <div class="table-scroll" role="region" aria-label="Benchmark results, scroll horizontally for all columns" tabindex="0"><table id="results-table"><caption class="visually-hidden">TwinPast Table 2. Model and offline human results cover 700 branches and 350 pairs. Human streaming is a weighted estimate from 105 sampled pairs.</caption><thead><tr><th scope="col">System / model</th><th scope="col"><abbr title="Attribute and Identity Recall">AIR</abbr></th><th scope="col"><abbr title="Historical State Recall">HSR</abbr></th><th scope="col"><abbr title="Event Order Reasoning">EOR</abbr></th><th scope="col"><abbr title="Historical Action Counting">HAC</abbr></th><th scope="col"><abbr title="Multi-Event Integration">MEI</abbr></th><th scope="col">Acc.</th><th scope="col" class="pair-column">PairAcc</th><th scope="col" class="diagnostic"><abbr title="Different valid predictions">D</abbr></th><th scope="col" class="diagnostic"><abbr title="Both correct, conditional on different valid predictions">C</abbr></th><th scope="col" class="diagnostic"><abbr title="Fully reversed answers">R</abbr></th><th scope="col" class="diagnostic"><abbr title="PairAcc minus reversal rate">S</abbr></th></tr></thead><tbody id="results-body"></tbody></table></div>
+      <p class="result-count" id="result-count" role="status"></p><div class="table-notes"><p><strong>Read within setting.</strong> Streaming, offline, native-video, and control conditions use different input and inference protocols. Categories remain separate when sorting.</p><p><strong>Human reference protocol.</strong> Offline replay covers all 350 pairs. Streaming extrapolates 105 sampled pairs using shared calibrated pair weights. Both participants had prior dataset exposure. Sampling and weighting follow the supplementary evaluation protocol.</p><p id="diagnostic-notes" hidden><strong>Paired diagnostics.</strong> D: how often predictions differ validly; C: how often those differing predictions are both correct. PairAcc = D × C (using proportions). R: fully reversed answer pairs; S: PairAcc − R. “—” means undefined. Stochastic answer changes on identical inputs do not by themselves establish evidence use.</p></div>
+        </div></details>
+        <details class="reading-details" id="findings"><summary><span>What model errors reveal</span><span class="detail-plus" aria-hidden="true">+</span></summary><div class="details-body"><h3 class="reading-heading">Retaining evidence does not guarantee its correct use.</h3><p>These paper case studies show why time references, event order, counts, and combinations of facts also matter.</p>
+      <div class="diagnosis-grid">
+        <article class="diagnosis"><span class="tiny-label">REKV · SELECTING THE QUERIED STATE</span><h3>The right states.<br>The wrong moment.</h3><p>All eight sampled frames per branch remain available, including both door states. The question asks for the state <strong>at the end of the first kitchen shot.</strong></p>
+          <div class="state-diagram" aria-label="History A changes from open to closed, while History B changes from closed to open. ReKV selects the initial states in both."><div class="state-legend"><span>Initial state</span><span>Queried final state</span></div><div class="state-row"><span>01</span><span>Open</span><i aria-hidden="true">→</i><strong>Closed</strong></div><div class="state-row"><span>02</span><span>Closed</span><i aria-hidden="true">→</i><strong>Open</strong></div><p>Model answers: Open / Closed <span>Both reversed</span></p></div>
+          <p class="diagnosis-takeaway">Keeping the states available does not ensure selection of the state at the requested time.</p>
+        </article>
+        <article class="diagnosis"><span class="tiny-label">ONESTREAMER · USING RECORDED ORDER</span><h3>The order is recorded.<br>The answer contradicts it.</h3><p>The memory supplied to the final question records both events and their order.</p>
+          <div class="memory-diagram"><div><time>2–7 s</time><span>Spray bottle placed in the box</span></div><div><time>7–10 s</time><span>Hairbrush placed in the box</span></div><p>Model selects: <strong>Hairbrush first</strong></p></div>
+          <p class="diagnosis-takeaway">Answering correctly also requires using the temporal relationships expressed in memory.</p>
+        </article>
+      </div>
+      <div class="integration-finding"><div><span class="tiny-label">COUNTS &amp; COMBINATIONS</span><h3>Every occurrence.<br>Every relevant fact.</h3></div><div><p>The best task PairAcc among evaluated streaming systems is <strong>15.8% for action counting</strong> and <strong>25.4% for multi-event integration</strong> (Figure 3).</p><p>In <strong>13 of 46</strong> multi-event pairs combining two binary facts, AURA answers one fact correctly in both branches while repeating the other, even though both facts change. A different option can still reflect an incomplete response to history.</p></div></div>
+      <p class="findings-note">These case studies illustrate specific failure modes. A failed pair by itself does not establish whether evidence was missed, forgotten, or used incorrectly.</p>
+          <p>Within the Qwen3.8-Omni family, PairAcc is <strong>49.14%</strong> for the realtime variant versus <strong>82.86%</strong> for its non-realtime counterpart. They produce different valid answers on <strong>57.14%</strong> and <strong>89.14%</strong> of pairs respectively. These are the evaluated variants and protocols, not a controlled comparison of architecture alone.</p>
+        </div></details>
+      </div>
+    </section>
+    <section class="paper-section wrap" id="paper" aria-labelledby="paper-title">
+      <p class="eyebrow">ABOUT THE PAPER</p><h2 id="paper-title">TwinPast</h2><p class="paper-title">Benchmarking Historical Evidence Use in Streaming Video Understanding with Evidence Contrastive Video Pairs</p>
+      <div class="release-status"><span>Paper <small>forthcoming</small></span><span>Code <small>forthcoming</small></span><span>Dataset <small>forthcoming</small></span></div>
+      <details class="reading-details" id="about"><summary><span>Dataset scope and sources</span><span class="detail-plus" aria-hidden="true">+</span></summary><div class="details-body"><p>The 350 human-reviewed pairs cover attribute and identity recall (92), historical states (77), event order (65), action counting (57), and multi-event integration (59).</p><p>Source material comes from MVP, DyBench, ReCo-Data, DualityVidQA, VidPair-Halluc, and Perception Test.</p><p>Evaluation targets historical questions at specified query times. It does not measure proactive response timing or latency. Spliced histories and shared source material can retain unrelated visual differences; temporal annotations vary in precision. Evidence-acquisition and delay studies need to verify the evidence supplied to each system.</p></div></details>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wrap"><a class="wordmark" href="#">TwinPast<span class="wordmark-dot">.</span></a><p>Does the answer follow the historical evidence?</p><a href="#" class="back-top">Back to top ↑</a></div></footer>
+  <noscript><p class="noscript">Enable JavaScript to explore synchronized videos and the results table. Results are also available in <a href="assets/results.csv">CSV format</a>.</p></noscript>
+</body>
+</html>

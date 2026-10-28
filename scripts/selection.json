@@ -1,0 +1,140 @@
+{
+  "categories": {
+    "AIR": {
+      "title": "Attribute and Identity Recall",
+      "count": 92
+    },
+    "HSR": {
+      "title": "Historical State Recall",
+      "count": 77
+    },
+    "EOR": {
+      "title": "Event Order Reasoning",
+      "count": 65
+    },
+    "HAC": {
+      "title": "Historical Action Counting",
+      "count": 57
+    },
+    "MEI": {
+      "title": "Multi-Event Integration",
+      "count": 59
+    }
+  },
+  "cases": [
+    {
+      "code": "AIR",
+      "pair_id": "pilot_r2_00048",
+      "example_label": "Dancer outfit",
+      "scene": "Recall the dancer's outfit from an earlier studio scene.",
+      "common_suffix_start_frame": 360,
+      "evidence_time_s": 4,
+      "poster_time_s": {
+        "A": 6,
+        "B": 6
+      },
+      "shared_poster_time_s": 30,
+      "asset_stem": "AIR",
+      "reuse_media": true,
+      "boundary_reference": "experiments/paper_support/data/task_overview_evidence.json: AIR suffix_start_s"
+    },
+    {
+      "code": "HSR",
+      "pair_id": "pilot_r3_00073",
+      "example_label": "Boat at sunset",
+      "scene": "Recall whether a boat was visible on the rocky beach before the aerial shoreline scene.",
+      "common_suffix_start_frame": 79,
+      "evidence_time_s": 0,
+      "poster_time_s": {
+        "A": 1,
+        "B": 1
+      },
+      "shared_poster_time_s": 5.3,
+      "boundary_reference": "archive/repository_maintenance_2026-10-20/benchmark_release350/legacy_releases/v3/evidence/shared/0760_metadata.json: common_suffix_start_frame"
+    },
+    {
+      "code": "HSR",
+      "pair_id": "pilot_b07_00023",
+      "example_label": "Guitar-case cover",
+      "scene": "Recover the position of the guitar-case cover at the end of the earlier scene.",
+      "common_suffix_start_frame": 136,
+      "evidence_time_s": 0,
+      "poster_time_s": {
+        "A": 5.5,
+        "B": 5.5
+      },
+      "shared_poster_time_s": 10,
+      "boundary_reference": "OUR_Benchmark/annotations/pilot_b07_00023/research.json: common_suffix_start_frame"
+    },
+    {
+      "code": "EOR",
+      "pair_id": "pilot_b08_00042",
+      "example_label": "Piano performance",
+      "scene": "Track the order of the audience clapping and the man approaching the piano.",
+      "common_suffix_start_frame": 302,
+      "evidence_time_s": 3,
+      "poster_time_s": {
+        "A": 4.5,
+        "B": 4.5
+      },
+      "shared_poster_time_s": 15,
+      "boundary_reference": "OUR_Benchmark/annotations/pilot_b08_00042/research.json: common_suffix_start_frame"
+    },
+    {
+      "code": "EOR",
+      "pair_id": "pilot_b06_00056",
+      "example_label": "Training sequence",
+      "scene": "Recall whether track running or overhead weight lifting came first.",
+      "common_suffix_start_frame": 1218,
+      "evidence_time_s": 18,
+      "poster_time_s": {
+        "A": 27,
+        "B": 24
+      },
+      "shared_poster_time_s": 54,
+      "boundary_reference": "archive/repository_maintenance_2026-10-20/benchmark_release350/legacy_releases/v3/evidence/shared/0365_metadata.json: common_suffix_start_frame"
+    },
+    {
+      "code": "EOR",
+      "pair_id": "pilot_00004",
+      "example_label": "Letter order",
+      "scene": "Track all four letter placements in the second demonstration.",
+      "common_suffix_start_frame": 1472,
+      "evidence_time_s": 30.666666666666668,
+      "poster_time_s": {
+        "A": 57,
+        "B": 54
+      },
+      "shared_poster_time_s": 65,
+      "boundary_reference": "archive/repository_maintenance_2026-10-20/benchmark_release350/legacy_releases/v3/evidence/shared/0009_metadata.json: common_suffix_start_frame"
+    },
+    {
+      "code": "HAC",
+      "pair_id": "pilot_00001",
+      "example_label": "Orange ramp trials",
+      "scene": "Count every orange release in the second set of book-ramp trials.",
+      "common_suffix_start_frame": 1250,
+      "evidence_time_s": 27.583333333333332,
+      "poster_time_s": {
+        "A": 41.5,
+        "B": 40.5
+      },
+      "shared_poster_time_s": 57,
+      "boundary_reference": "archive/repository_maintenance_2026-10-20/benchmark_release350/legacy_releases/v3/evidence/shared/0000_metadata.json: common_suffix_start_frame"
+    },
+    {
+      "code": "MEI",
+      "pair_id": "pilot_b08_00091",
+      "example_label": "Packing sequence",
+      "scene": "Combine two ordering relations from the earlier scene with the plush turtle.",
+      "common_suffix_start_frame": 642,
+      "evidence_time_s": 0,
+      "poster_time_s": {
+        "A": 4.5,
+        "B": 4.5
+      },
+      "shared_poster_time_s": 31,
+      "boundary_reference": "OUR_Benchmark/annotations/pilot_b08_00091/research.json: common_suffix_start_frame"
+    }
+  ]
+}
