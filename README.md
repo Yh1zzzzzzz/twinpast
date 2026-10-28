@@ -24,11 +24,13 @@
 - “32%”仅描述论文额外抽查的 400 道历史任务题；网页避免将其扩展为两个基准的总体比例。PairAcc 与 Acc 分开呈现，不把不同基准的不同指标混为同一排行榜。
 - 人工流式参考保留既有评测协议中的 105 对样本、校准权重外推和既往数据接触说明；这些细节不声称来自所附正文 PDF。表格的六组条件保持独立，排序也仅在组内进行。
 
-公开发布前需补充作者及正式链接。当前 AIR 示例来自 VidPair-Halluc，其公开再分发条款在研究仓库的 `OUR_Benchmark/THIRD_PARTY_NOTICES.md` 中仍为未明确；公开展示时应确认该素材或替换该案例。当前原型供私下审阅。
+作者及正式论文、代码和数据集链接尚待补充。当前 AIR 示例来自 VidPair-Halluc，其公开再分发条款在研究仓库的 `OUR_Benchmark/THIRD_PARTY_NOTICES.md` 中仍为未明确；公开展示时应确认该素材或替换该案例。
 
 ## GitHub Pages
 
-可将此目录作为独立 `twinpast` 仓库。已附 `.github/workflows/pages.yml`，在 GitHub 仓库 Settings → Pages 中选择 GitHub Actions，向 main 推送后部署 `dist/`。无需构建步骤。项目子路径 `/twinpast/` 受支持。
+此目录对应独立公开仓库 [Yh1zzzzzzz/twinpast](https://github.com/Yh1zzzzzzz/twinpast)，项目网址为 <https://yh1zzzzzzz.github.io/twinpast/>。
+
+GitHub 仓库 Settings → Pages 已选择 GitHub Actions。向 `main` 推送后，`.github/workflows/pages.yml` 先检查浏览器脚本语法，再自动部署 `dist/`，无需构建步骤。项目子路径 `/twinpast/` 受支持。后续在本目录修改文件并提交、推送即可更新网站，发布结果可在仓库 Actions 页面查看。
 
 若合并到已有 `用户名.github.io` 仓库，将 `dist/` 的内容放到该仓库 `twinpast/` 子目录，并使用已有站点的发布流程。不要将整个研究仓库或原始700视频上传到网站仓库。
 
