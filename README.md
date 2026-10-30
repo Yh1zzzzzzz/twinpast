@@ -1,8 +1,12 @@
 # TwinPast project page
 
-英文静态展示页，输出目录为 `dist/`。无需安装前端依赖，无账号、数据库或后端。作者、论文、代码及数据集公开链接尚未提供，页面保留 forthcoming 状态，不生成虚假地址或引用。
+英文静态展示页，输出目录为 `dist/`。无需安装前端依赖，无账号、数据库或后端。作者与单位已依据 TwinPast_Arxiv.pdf 补齐。论文公开地址未提供，代码仓库仍为私有，数据集公开访问未确认，资源入口保留 forthcoming 状态。
 
-页面按“配对设计 → 视频案例 → 关键结果”组织。首屏使用大幅历史画面对照，正文以 18–21px 为主；构造与评分说明、审计动机、完整表格和错误分析按需展开。结果表默认显示流式系统，可切换到全部 36 行。所有论文数据和指定案例均保留。
+页面按“研究动机 → 配对设计与 PairAcc → 视频案例 → 关键结果 → 历史证据的正确使用”组织。核心故事默认可见，只有构造细节、完整表格和补充诊断按需展开。结果表默认显示流式系统，可切换到全部 36 行。保留原来的 8 对示例、5 类任务、完整媒体和结果数据。
+
+2026-10-30 叙事更新依据用户提供的 `TwinPast_Arxiv.pdf`：前置两类审计发现；显式解释独立评测和 PairAcc；展示 42% Acc / 0% PairAcc、输入排名反转、模型组别与同家族差距；默认呈现 ReKV、OneStreamer 以及 §6.3 的计数问答案例。`dist/story.css` 负责新增版式。`dist/assets/evidence/rekv-*.jpg` 是直接提取自论文 Figure 4(a) 的四张原始嵌入图像，没有改动图像内容；网页重新安排时间、问题和答案标注。
+
+修改前完整备份（含视频）保存在项目外的 `../TwinPast-backups/2026-10-30-before-story-update/TwinPast-website.tar.gz`；同目录的 `backup-info.json` 保存原提交 `21a66fede30cf8226bbed9ce44d9b780e16b98ea`、文件数和 SHA-256。恢复时先解压到独立目录检查。
 
 ## 预览
 
@@ -16,15 +20,15 @@
 
 - `scripts/selection.json`：页面明确选用的 8 对案例、封面时间、历史证据跳转点及共享后缀边界来源。AIR 保留 `pilot_r2_00048`；HSR 为 `pilot_r3_00073`、`pilot_b07_00023`；EOR 为 `pilot_b08_00042`、`pilot_b06_00056`、`pilot_00004`；HAC 为 `pilot_00001`；MEI 为 `pilot_b08_00091`。
 - `dist/cases.js`：由选择配置及当前 release350 的原问题、选项、答案生成。HSR、EOR 支持类内示例切换，切换时重置播放与答案显示，返回类别时记住上次所选示例。页面示例不代表独立测试子集。
-- `scripts/results-paper.json` 是网站的结果来源，已对齐用户提供的 `main.pdf`（2026-10-28，第 7 页 Table 2）：34 个模型／输入配置和 2 个人工参考，共 36 行。`npm run export-results` 将其导出为 `dist/results.js` 与 `dist/assets/results.csv`。本地研究仓库 TeX 仍保留旧表号及 Flash-VStream 两行，因此不再自动读取它覆盖网站；后续论文更新时先审阅并更新该 JSON。
+- `scripts/results-paper.json` 是网站的结果来源，初始对齐用户提供的 `main.pdf`（2026-10-28，第 7 页 Table 2），本次关键结果已复核 `TwinPast_Arxiv.pdf`（2026-10-30，第 6 页 Table 2）：34 个模型／输入配置和 2 个人工参考，共 36 行。`npm run export-results` 将其导出为 `dist/results.js` 与 `dist/assets/results.csv`。本地研究仓库 TeX 仍保留旧表号及 Flash-VStream 两行，因此不再自动读取它覆盖网站；后续论文更新时先审阅并更新该 JSON。
 - `dist/assets/media/`：保留完整时长与源帧率的展示副本，宽度最多 960 像素且不放大，提供 H.264 MP4 和 VP9 WebM。无音轨，未裁切视频，原始评测媒体未修改。封面来自已选历史原帧与共享后缀原帧；关键证据跳转从相关过程开始前进入，不以封面时间代替。AIR 复用原展示文件。
 - `scripts/prepare_media.py`：按同目录的 `selection.json` 从研究仓库生成素材，需要 ffmpeg、ffprobe；日常修改页面不需要运行。示例：`python3 scripts/prepare_media.py --repo-root ../.. --reuse-dir dist --output /tmp/twinpast-web-assets-v2`。默认最多两路编码，每路两线程。输出后将素材复制到 `dist/assets/media/`，将 cases.json 包装为 `window.TWINPAST_CASES = ...;` 保存到 `dist/cases.js`。仅复制完成的文件，勿复制编码中的 `.part.mp4` / `.part.webm`；移除不再使用的旧展示副本，保留 AIR 文件供首屏使用。
-- `dist/project.css` 与 `dist/project.js`：论文项目页的首屏证据切换、配对评分示意、输入条件对照和诊断案例。首屏使用 `pilot_r3_00073` 小船案例；虚线框仅提示问题相关区域，不是编辑掩码或像素相等性证明。评分演示明确标为示意，不当作实测结果。
+- `dist/project.css` 与 `dist/project.js`：论文项目页的首屏证据切换、配对评分示意、输入条件对照和诊断案例。配对设计区使用 `pilot_r3_00073` 小船案例；虚线框仅提示问题相关区域，不是编辑掩码或像素相等性证明。评分演示明确标为示意，不当作实测结果。
 - 内容依据是用户提供的 `main.pdf`：构造原则见 §4.2（历史中无关内容尽可能匹配，共享最近帧严格相同）；两类审计动机见 §3；结果见 Tables 1–2；保留证据但用错时间／顺序的案例及多事实失败见 §6，计数与多事件任务 PairAcc 见 Figure 3；范围限制见 §7。不会将“尽可能匹配”写成所有历史无关像素完全相同，也不声称排除所有捷径。
 - “32%”仅描述论文额外抽查的 400 道历史任务题；网页避免将其扩展为两个基准的总体比例。PairAcc 与 Acc 分开呈现，不把不同基准的不同指标混为同一排行榜。
 - 人工流式参考保留既有评测协议中的 105 对样本、校准权重外推和既往数据接触说明；这些细节不声称来自所附正文 PDF。表格的六组条件保持独立，排序也仅在组内进行。
 
-作者及正式论文、代码和数据集链接尚待补充。当前 AIR 示例来自 VidPair-Halluc，其公开再分发条款在研究仓库的 `OUR_Benchmark/THIRD_PARTY_NOTICES.md` 中仍为未明确；公开展示时应确认该素材或替换该案例。
+正式论文、代码和数据集公开入口仍待确认。当前 AIR 示例来自 VidPair-Halluc，其公开再分发条款在研究仓库的 `OUR_Benchmark/THIRD_PARTY_NOTICES.md` 中仍为未明确；公开展示时应确认该素材或替换该案例。
 
 ## GitHub Pages
 
