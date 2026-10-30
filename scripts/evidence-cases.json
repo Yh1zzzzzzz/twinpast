@@ -1,0 +1,226 @@
+{
+  "history_display_fps": 1,
+  "source": "TwinPast_Overleaf/figures/Case_study/section62_key_frames_1fps 2/frame_index.csv",
+  "run_evidence_source": "TwinPast_Overleaf/figures/source/evidence_use_single_column_v8/assets/evidence/original_evidence_metadata.json",
+  "cases": {
+    "rekv": {
+      "pair_id": "pilot_b08_00038",
+      "question": "Before the oven-cleaning close-up, was the oven door open or closed when the first kitchen shot ended?",
+      "actual_sample_times_s": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14
+      ],
+      "all_candidates_returned": 8,
+      "available_frames_displayed_per_branch_s": [
+        0,
+        2,
+        4
+      ],
+      "answer_A": "Open",
+      "correct_A": "Closed",
+      "answer_B": "Closed",
+      "correct_B": "Open"
+    },
+    "onestreamer": {
+      "pair_id": "pilot_b08_00048",
+      "branch": "A",
+      "question": "In the packing scene at the dark table, which object was put into the tall cardboard box earlier?",
+      "caption_intervals_s": [
+        [
+          2,
+          7
+        ],
+        [
+          7,
+          10
+        ]
+      ],
+      "answer": "The black hairbrush.",
+      "correct": "The clear trigger spray bottle."
+    }
+  },
+  "frames": [
+    {
+      "model": "rekv",
+      "branch": "A",
+      "time_s": 0,
+      "zero_based_source_frame": 0,
+      "path": "assets/evidence/history/rekv-A-0s.png",
+      "sha256": "6669505f1b83195c9a3f6c13a93651a655f2f8a65d4912001f4b3f388f8d4496"
+    },
+    {
+      "model": "rekv",
+      "branch": "A",
+      "time_s": 1,
+      "zero_based_source_frame": 24,
+      "path": "assets/evidence/history/rekv-A-1s.png",
+      "sha256": "4f1468b5e7608b14844d310ead788fd6c9e75b4c635dfb542726413dbc28ff28"
+    },
+    {
+      "model": "rekv",
+      "branch": "A",
+      "time_s": 2,
+      "zero_based_source_frame": 48,
+      "path": "assets/evidence/history/rekv-A-2s.png",
+      "sha256": "b9de02613d55b2de4e8b52354e4bbce41eacf582f8429ee0e856f4ead1680ad6"
+    },
+    {
+      "model": "rekv",
+      "branch": "A",
+      "time_s": 3,
+      "zero_based_source_frame": 72,
+      "path": "assets/evidence/history/rekv-A-3s.png",
+      "sha256": "81feba4fde0a6d41897746192534e73f58f03f187e68bd7ac26fcf47ec637ebb"
+    },
+    {
+      "model": "rekv",
+      "branch": "A",
+      "time_s": 4,
+      "zero_based_source_frame": 96,
+      "path": "assets/evidence/history/rekv-A-4s.png",
+      "sha256": "dd52b056a6dd266c546d1a2c90501eb6bd051e1132b492214882494a074be277"
+    },
+    {
+      "model": "rekv",
+      "branch": "B",
+      "time_s": 0,
+      "zero_based_source_frame": 0,
+      "path": "assets/evidence/history/rekv-B-0s.png",
+      "sha256": "0cf34a0b1ef627ad9e8522513fcabfb5f82583e4bd048af5bb73ac878d2f8d1c"
+    },
+    {
+      "model": "rekv",
+      "branch": "B",
+      "time_s": 1,
+      "zero_based_source_frame": 24,
+      "path": "assets/evidence/history/rekv-B-1s.png",
+      "sha256": "ce5f4386ba6ad59bf188ae64be7ca56de2222dee17b836b17bb3286bdefaa67a"
+    },
+    {
+      "model": "rekv",
+      "branch": "B",
+      "time_s": 2,
+      "zero_based_source_frame": 48,
+      "path": "assets/evidence/history/rekv-B-2s.png",
+      "sha256": "12b4cc47c25cf13d58965e9fbf5ac649438ab16fb2cd6feddc7e9c5bb8908e1c"
+    },
+    {
+      "model": "rekv",
+      "branch": "B",
+      "time_s": 3,
+      "zero_based_source_frame": 72,
+      "path": "assets/evidence/history/rekv-B-3s.png",
+      "sha256": "f0b0a1adbe9a5508857b450b94d48dc8b1616d110f37a2b54f7784ad7c04ac3c"
+    },
+    {
+      "model": "rekv",
+      "branch": "B",
+      "time_s": 4,
+      "zero_based_source_frame": 96,
+      "path": "assets/evidence/history/rekv-B-4s.png",
+      "sha256": "e4429dcc022cd0e49b11e4517eeb8ec8fc6915687c39e80b908119246dd369a0"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 0,
+      "zero_based_source_frame": 0,
+      "path": "assets/evidence/history/onestreamer-A-0s.png",
+      "sha256": "c0523a561c7b4c5cbea9979857f4343159f2199e73759935351c8c35a5bbab9d"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 1,
+      "zero_based_source_frame": 24,
+      "path": "assets/evidence/history/onestreamer-A-1s.png",
+      "sha256": "e166d339a3fcbf9f6acb73e18cbcb95f597878b9215c1ace3e4694720f7e804b"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 2,
+      "zero_based_source_frame": 48,
+      "path": "assets/evidence/history/onestreamer-A-2s.png",
+      "sha256": "6585d712e39645dfbe80ac8c08a8c2f0bd4d923b496c0f41afd5d28eec3ee4f6"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 3,
+      "zero_based_source_frame": 72,
+      "path": "assets/evidence/history/onestreamer-A-3s.png",
+      "sha256": "2d1432063edb21b98abb47b7a041137ec7d57288e0422796687ec8798391701f"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 4,
+      "zero_based_source_frame": 96,
+      "path": "assets/evidence/history/onestreamer-A-4s.png",
+      "sha256": "66d8c6fa2c13c6905fbbb21fd677d2f7a4af421ddbcd1a5867d47ddd0fd11f45"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 5,
+      "zero_based_source_frame": 120,
+      "path": "assets/evidence/history/onestreamer-A-5s.png",
+      "sha256": "d6135791a31c37f1dc3b81870651049114886be8d5aa8cd9e6a108d1217a8f88"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 6,
+      "zero_based_source_frame": 144,
+      "path": "assets/evidence/history/onestreamer-A-6s.png",
+      "sha256": "32511bb72d7447d0583906e60df580401407decec2df9af600416465b875d5cc"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 7,
+      "zero_based_source_frame": 168,
+      "path": "assets/evidence/history/onestreamer-A-7s.png",
+      "sha256": "7a725b31d88390383a61d25c16b5bab3ac4238a2f01f89130152abae1595188b"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 8,
+      "zero_based_source_frame": 192,
+      "path": "assets/evidence/history/onestreamer-A-8s.png",
+      "sha256": "e1c03c01881e6b653591a3a1abf77085a5cb273ef6351062af9865e38f47b06a"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 9,
+      "zero_based_source_frame": 216,
+      "path": "assets/evidence/history/onestreamer-A-9s.png",
+      "sha256": "202695504dc93a9d8735b0ea917340b9eedf6574abfaa07373214ea4444922b0"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 10,
+      "zero_based_source_frame": 240,
+      "path": "assets/evidence/history/onestreamer-A-10s.png",
+      "sha256": "34a5e7c498f0a88bb0409f90ac97029a900067e28928ec41bf23a7e5466145a3"
+    },
+    {
+      "model": "onestreamer",
+      "branch": "A",
+      "time_s": 11,
+      "zero_based_source_frame": 264,
+      "path": "assets/evidence/history/onestreamer-A-11s.png",
+      "sha256": "e24e2e16ef2f02ddcb73ac6877d2448ea85d505456a26328636964bf1d42f935"
+    }
+  ]
+}

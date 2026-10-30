@@ -5,7 +5,7 @@
   "description": "Static TwinPast research project page",
   "scripts": {
     "dev": "node scripts/serve.mjs",
-    "check": "node --check dist/app.js && node --check dist/project.js && node --check dist/cases.js && node --check dist/results.js",
+    "check": "node --check dist/app.js && node --check dist/project.js && node --check dist/cases.js && node --check dist/results.js && node --check dist/evidence.js",
     "export-results": "python3 scripts/export_results.py"
   }
 }

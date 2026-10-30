@@ -42,10 +42,14 @@
   document.querySelectorAll('[data-answer-pattern]').forEach((button) => button.addEventListener('click', () => renderPattern(button.dataset.answerPattern)));
   renderPattern('repeat');
 
-  // Aggregate comparison values from Table 1 of the supplied manuscript.
+  // OVO averages: manuscript Table 1. StreamingBench Avg pools both groups:
+  // 2,499 Real-Time Visual Understanding + 498 Contextual Understanding questions.
+  // Use unrounded correct counts from the paper's audit data (see README).
+  const streamingAverage = (realTimeCorrect, contextualCorrect) =>
+    100 * (realTimeCorrect + contextualCorrect) / (2499 + 498);
   const auditScores = {
-    'Qwen3-VL-8B': {ovo: [66.93, 50.96], streaming: [81.79, 67.71]},
-    'DeepSeek-Flash': {ovo: [70.47, 61.18], streaming: [80.67, 74.27]},
+    'Qwen3-VL-8B': {ovo: [66.93, 50.96], streaming: [streamingAverage(2044, 330), streamingAverage(1692, 141)]},
+    'DeepSeek-Flash': {ovo: [70.47, 61.18], streaming: [streamingAverage(2016, 302), streamingAverage(1856, 189)]},
   };
   function renderReversal() {
     const model = $('comparison-model').value;
@@ -54,14 +58,20 @@
     const history = window.TWINPAST_RESULTS.results.find((r) => r.group === 'B' && r.model === `${model} (64 Frames)`);
     const rows = [
       ['OVO-Bench', 'OVO Avg', auditScores[model].ovo],
-      ['StreamingBench', 'Real-Time Avg', auditScores[model].streaming],
+      ['StreamingBench', 'StreamingBench Avg', auditScores[model].streaming],
       ['TwinPast', 'PairAcc', [recent.pair, history.pair]],
     ];
     $('input-ranking').replaceChildren(...rows.map(([name, metric, scores]) => {
       const row = document.createElement('div'); row.className = 'reversal-row'; row.setAttribute('role', 'row');
       const label = document.createElement('span'); label.setAttribute('role', 'rowheader');
       const detail = document.createElement('small'); detail.textContent = metric;
-      label.append(document.createTextNode(name), detail); row.append(label);
+      if (name === 'StreamingBench') {
+        detail.replaceChildren(document.createTextNode('Streaming'), document.createElement('wbr'), document.createTextNode('Bench Avg'));
+        label.append(document.createTextNode('Streaming'), document.createElement('wbr'), document.createTextNode('Bench'));
+      } else {
+        label.append(document.createTextNode(name));
+      }
+      label.append(detail); row.append(label);
       scores.forEach((score, i) => {
         const cell = document.createElement('strong'); cell.setAttribute('role', 'cell'); cell.textContent = `${score.toFixed(2)}%`;
         if (score > scores[1 - i]) cell.className = 'winner';
