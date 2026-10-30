@@ -61,12 +61,7 @@
       const row = document.createElement('div'); row.className = 'reversal-row'; row.setAttribute('role', 'row');
       const label = document.createElement('span'); label.setAttribute('role', 'rowheader');
       const detail = document.createElement('small'); detail.textContent = metric;
-      if (name === 'StreamingBench') {
-        label.append(document.createTextNode('Streaming'), document.createElement('wbr'), document.createTextNode('Bench'));
-      } else {
-        label.append(document.createTextNode(name));
-      }
-      label.append(detail); row.append(label);
+      label.append(document.createTextNode(name), detail); row.append(label);
       scores.forEach((score, i) => {
         const cell = document.createElement('strong'); cell.setAttribute('role', 'cell'); cell.textContent = `${score.toFixed(2)}%`;
         if (score > scores[1 - i]) cell.className = 'winner';
