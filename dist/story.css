@@ -165,3 +165,17 @@
  .closing-argument{padding:26px 22px}.closing-argument h2{font-size:28px}.closing-argument>p:not(.eyebrow){font-size:17px}
 }
 @media(max-width:360px){.nav-links a:nth-child(3){display:none}.nav-links a{white-space:nowrap}.story-hero h1{font-size:37px}.overall-gap>p>span:not(.gap-less){font-size:24px}}
+
+.resource-links{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 36px}
+.resource-links>a{display:inline-flex;align-items:center;gap:18px;min-height:48px;padding:12px 18px;border:1px solid #bdcdb4;border-radius:6px;background:#fff;font-size:17px;font-weight:600}
+.resource-links>a>span{font-size:14px;font-weight:400;color:var(--muted)}
+.resource-links>a:hover{background:var(--soft);border-color:var(--green)}
+.citation-section{margin-top:40px}
+.citation-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px}
+.citation-heading h3{font-size:27px}
+.citation-heading button{flex-shrink:0;min-height:44px;padding:9px 15px;border:1px solid #bdcdb4;border-radius:5px;background:#fff;font-size:14px;font-weight:550}
+.citation-heading button:hover{background:var(--soft);border-color:var(--green)}
+.citation-code{margin:0;padding:24px;border:1px solid var(--line);border-radius:8px;background:#eef2e8;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.8 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;tab-size:2}
+.citation-code code{font:inherit}
+.citation-status{min-height:24px;margin-top:8px;color:var(--muted);font-size:14px}
+@media(max-width:580px){.resource-links{gap:10px}.resource-links>a{padding:10px 14px;font-size:16px;gap:12px}.resource-links>a>span{font-size:13px}.citation-section{margin-top:30px}.citation-heading h3{font-size:24px}.citation-code{padding:17px 14px;font-size:12px}}

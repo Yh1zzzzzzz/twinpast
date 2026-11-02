@@ -1,6 +1,8 @@
 # TwinPast project page
 
-英文静态展示页，输出目录为 `dist/`。无需安装前端依赖，无账号、数据库或后端。按用户审核意见，页面不展示作者与单位。论文公开地址未提供，代码仓库仍为私有，数据集公开访问未确认，资源入口保留 forthcoming 状态。
+英文静态展示页，输出目录为 `dist/`。无需安装前端依赖，无账号、数据库或后端。按用户审核意见，页面不单独展示作者与单位；页末 BibTeX 引用保留完整作者列表。
+
+2026-11-02 按用户要求更新正式入口并发布：[Paper / arXiv](https://arxiv.org/abs/2610.41983)、[Code / GitHub](https://github.com/Yh1zzzzzzz/TwinPast_code)、[Dataset / Hugging Face](https://huggingface.co/datasets/younght/TwinPast)。页末 `#citation` 提供用户给定的完整 BibTeX 与复制按钮。
 
 页面按“研究动机 → 配对设计与 PairAcc → 视频案例 → 关键结果 → 历史证据的正确使用”组织。核心故事默认可见，完整表格与数据集范围按需展开。结果表默认显示流式系统，可切换到全部 36 行。保留原来的 8 对示例、5 类任务、完整媒体和结果数据。
 
@@ -43,7 +45,7 @@
 - “32%”仅描述论文额外抽查的 400 道历史任务题；网页避免将其扩展为两个基准的总体比例。PairAcc 与 Acc 分开呈现，不把不同基准的不同指标混为同一排行榜。
 - 按用户审核意见，移除正文中的模型协议对照说明、Read within setting 和 Human reference protocol 段落；表格的六组条件与既有数值保持不变，排序仍仅在组内进行。
 
-正式论文、代码和数据集公开入口仍待确认。当前 AIR 示例来自 VidPair-Halluc，其公开再分发条款在研究仓库的 `OUR_Benchmark/THIRD_PARTY_NOTICES.md` 中仍为未明确；公开展示时应确认该素材或替换该案例。
+当前 AIR 示例来自 VidPair-Halluc，其公开再分发条款在研究仓库的 `OUR_Benchmark/THIRD_PARTY_NOTICES.md` 中仍为未明确；公开展示时应确认该素材或替换该案例。
 
 ## GitHub Pages
 

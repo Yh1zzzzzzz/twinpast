@@ -99,4 +99,17 @@
   }
   window.addEventListener('hashchange', openLinkedDetails);
   openLinkedDetails();
+
+  const copyCitation = $('copy-citation');
+  copyCitation.hidden = false;
+  copyCitation.addEventListener('click', async () => {
+    const status = $('citation-status');
+    status.textContent = '';
+    try {
+      await navigator.clipboard.writeText($('citation-bibtex').textContent);
+      status.textContent = 'BibTeX copied to clipboard.';
+    } catch {
+      status.textContent = 'Copy unavailable. Select the citation above and copy it manually.';
+    }
+  });
 })();
