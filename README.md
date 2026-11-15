@@ -2,7 +2,7 @@
 
 ## 视频概览（2026-11-15）
 
-- 首屏标题区与配对设计图之间新增视频卡片（`#video`），按钮组新增 `Video` 入口。英文页播放 `dist/assets/video/twinpast-overview-en.mp4`（3:31），中文页播放 `twinpast-overview-zh.mp4`（3:34）；两者均为烧录字幕加配乐的 H.264 MP4，片尾标题页含作者与单位。
+- 首屏标题区与配对设计图之间新增视频卡片（`#video`），按钮组新增视频平台入口：英文页为 YouTube，中文页为 bilibili（用 `.only-en` / `.only-zh` 按页面语言显示）。英文页播放 `dist/assets/video/twinpast-overview-en.mp4`（3:31），中文页播放 `twinpast-overview-zh.mp4`（3:34）；两者均为烧录字幕加配乐的 H.264 MP4，片尾标题页含作者与单位。为减轻国内访问 GitHub Pages 时的卡顿，网页版用 x264 veryslow、`-tune animation`、CRF 23（峰值 900 kbps）与 128 kbps AAC 重编码，总码率约 400 kbps（原 685 kbps），画面与原片肉眼无差；地址带 `?v=2` 以免浏览器混用旧文件的缓存分段。
 - 封面 `twinpast-overview-{en,zh}.jpg` 取自各自视频开头无字幕的标题帧（英文 10.5 s、中文 9.5 s），1280×720。视频 `preload="none"`，点击封面上的播放按钮后才加载并显示原生控件；无 JS 时直接显示原生控件。
 - 中文页的视频、封面与“观看中文版 / Watch in English”链接通过 `scripts/translations-zh.json` 的 `attributes` 映射替换，仅作用于带 `data-l10n-attrs` 的元素（见 `scripts/build_locales.py`）。
 - 2026-11-15：用户审核后明确确认发布。

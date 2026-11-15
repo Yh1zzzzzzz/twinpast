@@ -80,6 +80,9 @@ strong { color: var(--ink); }
 .btn { display: inline-flex; align-items: center; gap: 9px; padding: 11px 18px; border-radius: 11px; border: 1px solid var(--rule); background: var(--card); color: var(--navy); font-size: 16px; font-weight: 650; text-decoration: none; box-shadow: 0 1px 2px rgba(23, 43, 66, .06); transition: transform .15s, box-shadow .15s, border-color .15s; }
 .btn span { font-weight: 400; font-size: 14px; color: var(--muted); }
 .btn svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.btn svg.brand-icon { width: 20px; height: 20px; stroke: none; }
+/* One video platform per edition: YouTube on the English page, bilibili on the Chinese page. */
+html[lang="en"] .only-zh, html[lang="zh-CN"] .only-en { display: none; }
 .btn.primary { background: var(--navy); border-color: var(--navy); color: #fff; }
 .btn.primary span { color: #b9c7d8; }
 @media (hover: hover) {

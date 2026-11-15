@@ -317,7 +317,6 @@ window.TWINPAST_ZH = {
     "BibTeX copied.": "已复制 BibTeX。",
     "Copy failed. Select the entry and copy it manually.": "复制失败，请选中引用条目后手动复制。",
     ".": "。",
-    "Video": "视频",
     "3 min": "3 分钟",
     "Video overview": "视频概览",
     "TwinPast in three and a half minutes": "三分半钟看懂 TwinPast",
