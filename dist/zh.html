@@ -20,11 +20,11 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="alternate" hreflang="en" href="index.html">
   <link rel="alternate" hreflang="zh-CN" href="zh.html">
-  <link rel="stylesheet" href="site.css?v=20261115-nav-language">
+  <link rel="stylesheet" href="site.css?v=20261115-video">
   <script defer src="cases.js"></script>
   <script defer src="results.js?v=20261113"></script>
   <script defer src="locale-zh.js?v=20261115-zh-review"></script>
-  <script defer src="site.js?v=20261115-i18n"></script>
+  <script defer src="site.js?v=20261115-video"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳至正文</a>
@@ -54,6 +54,7 @@
               <a class="btn primary" href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h6.5L15 6v11.5H5z"/><path d="M11.5 2.5V6H15M7.5 10h5M7.5 13h5"/></svg>论文<span>arXiv</span></a>
               <a class="btn" href="https://github.com/Yh1zzzzzzz/TwinPast_code" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6l-4 4 4 4M13 6l4 4-4 4M11.2 4.5l-2.4 11"/></svg>代码<span>GitHub</span></a>
               <a class="btn" href="https://huggingface.co/datasets/younght/TwinPast" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6" ry="2.5"/><path d="M4 5v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V5M4 10v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"/></svg>数据集<span>Hugging Face</span></a>
+              <a class="btn" href="#video"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M8.4 7v6l4.8-3z"/></svg>视频<span>3 分钟</span></a>
               <a class="btn" href="#citation"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 12.5c0-4 1.5-6.5 4.5-7.5M11 12.5c0-4 1.5-6.5 4.5-7.5"/><rect x="3.5" y="11" width="4.5" height="4.5" rx="1"/><rect x="10.5" y="11" width="4.5" height="4.5" rx="1"/></svg>BibTeX</a>
             </div>
           </div>
@@ -64,6 +65,25 @@
             <div><dt>34</dt><dd>种模型与输入配置</dd></div>
           </dl>
         </div>
+
+        <section class="card video-feature" id="video" aria-labelledby="video-title">
+          <div class="vf-copy">
+            <p class="kicker">视频概览</p>
+            <h2 id="video-title">三分半钟看懂 TwinPast</h2>
+            <p>从现有基准的审查、配对设计，到主要结果和两个失败案例，配有屏幕字幕。</p>
+            <ul class="vf-meta">
+              <li>3 分 34 秒</li>
+              <li>中文字幕</li>
+            </ul>
+            <a class="vf-alt" href="index.html#video" lang="en" hreflang="en" data-l10n-attrs>Watch in English</a>
+          </div>
+          <div class="vf-player">
+            <video id="overview-video" controls playsinline preload="none" poster="assets/video/twinpast-overview-zh.jpg" width="1920" height="1080" aria-label="TwinPast 视频概览" data-l10n-attrs>
+              <source src="assets/video/twinpast-overview-zh.mp4" type="video/mp4" data-l10n-attrs>
+            </video>
+            <button class="video-overlay" type="button" data-overview-play aria-label="播放视频概览" hidden><span aria-hidden="true"></span></button>
+          </div>
+        </section>
 
         <figure class="pair-figure" aria-labelledby="pair-caption">
           <div class="pf-diagram">

@@ -316,7 +316,17 @@ window.TWINPAST_ZH = {
     "Enlarge frame: {title}": "放大此帧：{title}",
     "BibTeX copied.": "已复制 BibTeX。",
     "Copy failed. Select the entry and copy it manually.": "复制失败，请选中引用条目后手动复制。",
-    ".": "。"
+    ".": "。",
+    "Video": "视频",
+    "3 min": "3 分钟",
+    "Video overview": "视频概览",
+    "TwinPast in three and a half minutes": "三分半钟看懂 TwinPast",
+    "The benchmark audit, the paired design, the main results and two failure cases, with on-screen subtitles.": "从现有基准的审查、配对设计，到主要结果和两个失败案例，配有屏幕字幕。",
+    "3 min 31 s": "3 分 34 秒",
+    "English subtitles": "中文字幕",
+    "观看中文版": "Watch in English",
+    "TwinPast video overview": "TwinPast 视频概览",
+    "Play the video overview": "播放视频概览"
   },
   "cases": {
     "pilot_r2_00048": {

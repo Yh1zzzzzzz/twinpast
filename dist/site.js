@@ -21,6 +21,23 @@
     });
   });
 
+  /* ---------- Video overview: poster with a play button, native controls once started ---------- */
+
+  const overview = $('overview-video');
+  if (overview) {
+    const frame = overview.closest('.vf-player');
+    const start = frame.querySelector('[data-overview-play]');
+    const started = () => { frame.classList.add('is-started'); overview.controls = true; };
+    overview.controls = false;
+    start.hidden = false;
+    start.addEventListener('click', () => {
+      started();
+      overview.play().catch(() => {});
+      overview.focus({preventScroll: true});
+    });
+    overview.addEventListener('play', started);
+  }
+
   /* ---------- Paired video explorer ---------- */
 
   const descriptions = {

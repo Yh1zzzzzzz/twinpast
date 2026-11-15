@@ -1,5 +1,12 @@
 # TwinPast project page
 
+## 视频概览（2026-11-15）
+
+- 首屏标题区与配对设计图之间新增视频卡片（`#video`），按钮组新增 `Video` 入口。英文页播放 `dist/assets/video/twinpast-overview-en.mp4`（3:31），中文页播放 `twinpast-overview-zh.mp4`（3:34）；两者均为烧录字幕加配乐的 H.264 MP4，片尾标题页含作者与单位。
+- 封面 `twinpast-overview-{en,zh}.jpg` 取自各自视频开头无字幕的标题帧（英文 10.5 s、中文 9.5 s），1280×720。视频 `preload="none"`，点击封面上的播放按钮后才加载并显示原生控件；无 JS 时直接显示原生控件。
+- 中文页的视频、封面与“观看中文版 / Watch in English”链接通过 `scripts/translations-zh.json` 的 `attributes` 映射替换，仅作用于带 `data-l10n-attrs` 的元素（见 `scripts/build_locales.py`）。
+- 2026-11-15：用户审核后明确确认发布。
+
 ## 中英文版本（2026-11-15 发布版本）
 
 - 页面顶部主导航提供 `English / 中文` 切换，滚动时保持可见。英文入口为 `dist/index.html`，简体中文入口为 `dist/zh.html`；切换时保留当前阅读章节。

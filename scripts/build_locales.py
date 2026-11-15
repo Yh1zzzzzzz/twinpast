@@ -9,6 +9,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATIONS = json.loads((ROOT / 'scripts/translations-zh.json').read_text())
 STRINGS = TRANSLATIONS['strings']
+ATTRIBUTES = TRANSLATIONS.get('attributes', {})
 
 
 class ChinesePage(HTMLParser):
@@ -44,8 +45,13 @@ class ChinesePage(HTMLParser):
             'description', 'og:title', 'og:description', 'og:image:alt'
         ):
             localizable.add('content')
+        # Elements marked data-l10n-attrs point to edition-specific files or pages
+        # (the video overview and its cross-language link); swap them by exact value.
+        swappable = {'src', 'poster', 'href', 'lang', 'hreflang'} if 'data-l10n-attrs' in attributes else set()
         def attribute(match):
             name, value = match.group(1), match.group(2)
+            if name in swappable and value in ATTRIBUTES:
+                return f'{name}="{escape(ATTRIBUTES[value], quote=True)}"'
             return f'{name}="{escape(self.translate(unescape(value)), quote=True)}"' if name in localizable else match.group(0)
         raw = re.sub(r'([\w-]+)="([^"]*)"', attribute, raw)
         if tag == 'html':
