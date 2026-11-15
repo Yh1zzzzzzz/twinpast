@@ -5,7 +5,8 @@
   "description": "Static TwinPast research project page",
   "scripts": {
     "dev": "node scripts/serve.mjs",
-    "check": "node --check dist/app.js && node --check dist/project.js && node --check dist/cases.js && node --check dist/results.js && node --check dist/evidence.js",
+    "check": "node --check dist/site.js && node --check dist/cases.js && node --check dist/results.js && node --check dist/locale-zh.js && python3 scripts/build_locales.py --check",
+    "build-locales": "python3 scripts/build_locales.py",
     "export-results": "python3 scripts/export_results.py"
   }
 }

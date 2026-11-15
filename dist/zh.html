@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f9">
+  <meta name="description" content="TwinPast 是一个包含 350 对视频的评测基准，所有视频对均经过人工审核。每对视频最后的画面、问题和选项都相同，但此前发生的事件不同，正确答案也不同。">
+  <meta property="og:title" content="TwinPast：评测流式视频理解模型如何使用历史证据">
+  <meta property="og:description" content="350 对视频：结尾画面、问题和选项相同，先前的内容和正确答案不同。只有同一对中的两段视频都答对，才计为一对正确。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yh1zzzzzzz.github.io/twinpast/zh.html">
+  <meta property="og:image" content="https://yh1zzzzzzz.github.io/twinpast/assets/TwinPast-preview.png">
+  <meta property="og:image:width" content="1600">
+  <meta property="og:image:height" content="900">
+  <meta property="og:image:alt" content="两段视频前面的内容不同，结尾的画面相同。概念示意图。">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>TwinPast：评测流式视频理解模型如何使用历史证据</title>
+  <link rel="icon" href="assets/favicon.ico?v=2" sizes="any">
+  <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="alternate" hreflang="en" href="index.html">
+  <link rel="alternate" hreflang="zh-CN" href="zh.html">
+  <link rel="stylesheet" href="site.css?v=20261115-nav-language">
+  <script defer src="cases.js"></script>
+  <script defer src="results.js?v=20261113"></script>
+  <script defer src="locale-zh.js?v=20261115-zh-review"></script>
+  <script defer src="site.js?v=20261115-i18n"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至正文</a>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top"><img src="assets/favicon.svg?v=2" width="30" height="30" alt="">TwinPast</a>
+      <nav class="nav-links" aria-label="页面章节">
+        <a href="#overview">概览</a><a href="#audit">基准分析</a><a href="#benchmark">TwinPast 设计</a><a href="#results">实验结果</a><a href="#cases">案例分析</a><a href="#citation">引用</a>
+      </nav>
+      <a class="nav-cta" href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer">阅读论文</a>
+      <nav class="language-switch" aria-label="语言">
+        <a href="index.html" lang="en" hreflang="en">English</a>
+        <a href="zh.html" lang="zh-CN" hreflang="zh-CN" aria-current="page">中文</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-top">
+          <div class="hero-copy">
+            <h1 id="hero-title"><span class="wordmark">TwinPast</span><span class="paper-title">利用证据对比视频对，评测流式视频理解模型对历史证据的使用</span></h1>
+            <p class="lede">模型答对了有关先前事件的问题，并不代表它用到了先前的视频内容。TwinPast 将两段视频配成一对：结尾画面相同，问题也相同，但此前发生的事件不同，正确答案也随之不同。只有同一对中的两段视频都答对，才计为一对正确。</p>
+            <div class="actions">
+              <a class="btn primary" href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h6.5L15 6v11.5H5z"/><path d="M11.5 2.5V6H15M7.5 10h5M7.5 13h5"/></svg>论文<span>arXiv</span></a>
+              <a class="btn" href="https://github.com/Yh1zzzzzzz/TwinPast_code" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6l-4 4 4 4M13 6l4 4-4 4M11.2 4.5l-2.4 11"/></svg>代码<span>GitHub</span></a>
+              <a class="btn" href="https://huggingface.co/datasets/younght/TwinPast" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6" ry="2.5"/><path d="M4 5v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V5M4 10v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"/></svg>数据集<span>Hugging Face</span></a>
+              <a class="btn" href="#citation"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 12.5c0-4 1.5-6.5 4.5-7.5M11 12.5c0-4 1.5-6.5 4.5-7.5"/><rect x="3.5" y="11" width="4.5" height="4.5" rx="1"/><rect x="10.5" y="11" width="4.5" height="4.5" rx="1"/></svg>BibTeX</a>
+            </div>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>350</dt><dd>对视频，均经人工审核</dd></div>
+            <div><dt>700</dt><dd>段视频，平均时长 58 秒</dd></div>
+            <div><dt>5</dt><dd>类历史理解任务</dd></div>
+            <div><dt>34</dt><dd>种模型与输入配置</dd></div>
+          </dl>
+        </div>
+
+        <figure class="pair-figure" aria-labelledby="pair-caption">
+          <div class="pf-diagram">
+            <div class="pf-histories">
+              <p class="pf-label a">历史片段 A <span>舞者身穿黑色连衣裙</span></p>
+              <div class="film a"><img src="assets/teaser/air-a-1.jpg" width="480" height="270" alt="历史片段 A：舞蹈室中身穿黑色连衣裙的舞者"><img src="assets/teaser/air-a-2.jpg" width="480" height="270" alt="历史片段 A：身穿黑色连衣裙的舞者伸展双臂"><img src="assets/teaser/air-a-3.jpg" width="480" height="270" alt="历史片段 A：身穿黑色连衣裙的舞者面向镜头"></div>
+              <div class="film b"><img src="assets/teaser/air-b-1.jpg" width="480" height="270" alt="历史片段 B：舞蹈室中身穿白色连体舞蹈服的舞者"><img src="assets/teaser/air-b-2.jpg" width="480" height="270" alt="历史片段 B：身穿白色连体舞蹈服的舞者举起双臂"><img src="assets/teaser/air-b-3.jpg" width="480" height="270" alt="历史片段 B：身穿白色连体舞蹈服的舞者站在窗边"></div>
+              <p class="pf-label b">历史片段 B <span>舞者身穿白色连体舞蹈服</span></p>
+            </div>
+            <svg class="pf-merge" viewBox="0 0 100 200" preserveAspectRatio="none" aria-hidden="true">
+              <path class="m-a" d="M0 54 C46 54 40 100 82 100"/>
+              <path class="m-b" d="M0 146 C46 146 40 100 82 100"/>
+              <path class="m-s" d="M78 100 H100"/>
+            </svg>
+            <div class="pf-shared">
+              <p class="pf-label s">相同的近期画面 <span>两段视频中的这部分画面完全相同</span></p>
+              <div class="film s"><img src="assets/teaser/air-shared-1.jpg" width="480" height="270" alt="共享后缀：另一段舞台场景，舞者身穿深色服装"><img src="assets/teaser/air-shared-2.jpg" width="480" height="270" alt="共享后缀：舞者的背影"><img src="assets/teaser/air-shared-3.jpg" width="480" height="270" alt="共享后缀：舞者伸出一只手臂"></div>
+              <p class="pf-sub">两段视频最后的 30 秒。这部分画面中看不到舞者此前的服装。</p>
+            </div>
+          </div>
+          <div class="pf-qa">
+            <div class="pf-q">
+              <p class="kicker">两段视频的问题和选项相同</p>
+              <p class="pf-question">在此前的舞蹈室场景中，舞者穿着什么？</p>
+              <p class="pf-options"><span>A. 黑色连衣裙</span><span>B. 白色连体舞蹈服</span></p>
+            </div>
+            <dl class="pf-answers">
+              <div class="a"><dt>历史片段 A 的正确答案</dt><dd>黑色连衣裙</dd></div>
+              <div class="b"><dt>历史片段 B 的正确答案</dt><dd>白色连体舞蹈服</dd></div>
+            </dl>
+            <p class="pf-rule"><strong>PairAcc</strong><span>同一对中的两段视频都答对，才计为一对正确。</span></p>
+          </div>
+          <figcaption id="pair-caption">这里用两段视频中的画面展示一对 TwinPast 样例。两段视频的近期画面、问题和选项顺序完全相同，仅凭这些信息无法区分二者。如果答案完全由这些共同输入决定，模型就会对两段视频给出相同答案，因而无法同时答对。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band" id="overview" aria-labelledby="overview-title">
+      <div class="wrap">
+        <h2 id="overview-title" class="visually-hidden">概览</h2>
+        <ol class="summary">
+          <li><p class="kicker">问题</p><p class="big">32%</p><p>在 OVO-Bench 和 StreamingBench 抽样的历史理解问题中，32% 仅凭最后三至四帧就能回答。两个模型仅看问题文本，也分别能答对约 41% 和 50%。这些基准上的准确率并不能证明模型使用了历史信息。</p></li>
+          <li><p class="kicker">评测基准</p><p class="big">91% <span class="arrow" aria-label="下降至">→</span> 19%</p><p>遮挡标注的历史证据后，PairAcc 从最高约 91% 降至不超过 19%；在其他位置遮挡相同面积，变化却不超过 3.4 个百分点。这表明，要同时答对一对视频，需要用到这些历史证据。</p></li>
+          <li><p class="kicker">发现</p><p class="big">49%</p><p>最强流式系统仅能答对约 49% 的视频对。接收完整视频的通用多模态大模型可答对 67–91%，人类可答对约 88%。流式系统答错时，最常见的情况是对先前内容不同的两段视频给出相同答案。</p></li>
+        </ol>
+        <details class="abstract">
+          <summary>阅读摘要</summary>
+          <p>流式视频基准上的高准确率，并不能证明模型使用了先前的视觉信息。我们分析了 OVO-Bench 和 StreamingBench，发现抽样的历史理解问题中，32% 仅凭近期画面就能回答；仅提供问题和选项，也能答对不少问题。为此，我们提出 <strong>TwinPast</strong>，一个包含 350 对经人工审核的视频、覆盖五类历史理解任务的评测基准。同一对中的两段视频具有相同的近期画面、问题和选项顺序，但先前发生的事件不同，因此正确答案也不同。每段视频独立评测，PairAcc 要求同一对中的两个答案都正确；如果答案完全由共同输入决定，就无法同时答对。遮挡标注的关键证据后，PairAcc 从最高约 91% 降至不超过 19%；在其他位置遮挡相同面积，变化则不超过 3.4 个百分点。最强流式系统的 PairAcc 为 49%，而接收完整视频的通用多模态大模型达到 67–91%，说明流式系统仍有很大的提升空间。流式系统的主要失败表现，是对不同的历史片段给出相同答案：它们在至多 57% 的视频对上给出两个不同的有效答案，通用多模态大模型的这一比例则为 79–94%。案例分析进一步表明，即使决定答案的证据在最终提问时仍然可用，模型也可能答错。</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="band tinted" id="audit" aria-labelledby="audit-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="audit-title">不看先前画面，也能答对</h2>
+          <p>我们分析了 OVO-Bench 和 StreamingBench，发现模型即使没有看过先前的事件，也有两种途径答对相关问题。</p>
+        </header>
+        <div class="facts">
+          <div class="card fact"><p class="fact-number">32%</p><h3>当前画面仍能提供答案</h3><p>人工检查发现，在从历史任务中抽样的 400 道问题中，有 128 道仅凭最后三至四帧就能找到参考答案的依据。</p></div>
+          <div class="card fact"><p class="fact-number">40.83% <span>与</span> 49.60%</p><h3>只看文本，也能答对</h3><p>仅提供问题和选项，Qwen3-VL-8B 与 DeepSeek-Flash 在 4,276 道基准问题上的准确率就分别达到了 40.83% 和 49.60%。</p></div>
+        </div>
+        <figure class="card chart-card" aria-labelledby="input-caption">
+          <div class="chart-head">
+            <h3>在现有基准上，提供更多历史画面未能提高得分；在 TwinPast 上，历史画面却不可或缺。</h3>
+            <div class="segmented" role="group" aria-label="模型" id="input-model">
+              <button type="button" aria-pressed="true" data-model="Qwen3-VL-8B">Qwen3-VL-8B</button><button type="button" aria-pressed="false" data-model="DeepSeek-Flash">DeepSeek-Flash</button>
+            </div>
+          </div>
+          <div class="input-chart" id="input-chart"></div>
+          <figcaption id="input-caption">不同输入条件下的得分（%）。在两个现有基准上，相比从完整视频中采样至多 64 帧，只用四张近期帧得分反而更高。在 TwinPast 上，情况则相反：Qwen3-VL-8B 只看四张近期帧时，虽然单视频准确率达到 42.00%，却没有同时答对任何一对视频。见论文表 1、表 2。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band" id="benchmark" aria-labelledby="benchmark-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="benchmark-title">先前内容不同，结尾片段相同</h2>
+          <p>每对视频中，先前发生的事件不同，其余条件保持一致。</p>
+        </header>
+        <div class="design">
+          <div class="prose">
+            <p>每对样例包含两段视频： <span class="math"><i>V</i><sup>A</sup> = <i>P</i> ⊕ <i>H</i><sup>A</sup> ⊕ <i>R</i></span> 与 <span class="math"><i>V</i><sup>B</sup> = <i>P</i> ⊕ <i>H</i><sup>B</sup> ⊕ <i>R</i></span>。其中，P 是可选的共同开头（前缀），H 是两段不同的历史片段，R 是逐帧相同的结尾片段（共享后缀）。两段视频的问题、选项及其顺序、提问时刻均相同，但正确答案不同。每段视频分别独立评测。</p>
+            <p><strong>PairAcc</strong> （配对准确率）表示同一对中两个答案都正确的视频对占比。 <strong>Acc.</strong> 则分别统计每段视频的答案是否正确。因此，对于只有两个选项的视频对，始终选择同一个选项，也可以达到 50% 的单视频准确率，但 PairAcc 仍为 0%。</p>
+          </div>
+          <div class="schema" role="img" aria-label="两段视频都由共同开头、不同的历史片段 A 或 B，以及相同的结尾片段组成；之后接收相同问题，但正确答案不同。">
+            <div class="schema-row"><span class="s-name a"><i>V</i><sup>A</sup></span><span class="seg p"><span class="lbl">共同开头 </span><i>P</i></span><span class="seg ha"><span class="lbl">历史片段 </span><i>H</i><sup>A</sup></span><span class="seg r"><span class="lbl">共享后缀 </span><i>R</i></span><span class="seg q">Q</span><span class="s-ans a"><span class="lbl">答案 </span><i>y</i><sup>A</sup></span></div>
+            <div class="schema-row"><span class="s-name b"><i>V</i><sup>B</sup></span><span class="seg p"><span class="lbl">共同开头 </span><i>P</i></span><span class="seg hb"><span class="lbl">历史片段 </span><i>H</i><sup>B</sup></span><span class="seg r"><span class="lbl">共享后缀 </span><i>R</i></span><span class="seg q">Q</span><span class="s-ans b"><span class="lbl">答案 </span><i>y</i><sup>B</sup></span></div>
+            <p class="schema-note"><span>相同</span><span class="differs">不同</span><span>相同</span><span class="differs">不同</span></p>
+          </div>
+        </div>
+        <dl class="tiles">
+          <div><dt>规模</dt><dd>350 对，共 700 段视频；分辨率 640×360，帧率 24 帧/秒，无音轨</dd></div>
+          <div><dt>时长</dt><dd>视频平均时长 58 秒；共享后缀的时长中位数为 30 秒，均不少于 5 秒</dd></div>
+          <div><dt>审核</dt><dd>每对视频、每道问题和对应的标准答案都经过人工审核</dd></div>
+          <div><dt>来源</dt><dd>MVP, DyBench, ReCo-Data, DualityVidQA, VidPair-Halluc, Perception Test, Breakfast, Eidon Tracker POV, IKEA ASM, HoloAssist</dd></div>
+        </dl>
+
+        <h3 class="sub" id="examples">观看五类任务的配对视频示例</h3>
+        <div class="explorer card" id="pair-panel">
+          <div class="tabs" role="tablist" aria-label="历史理解任务" id="task-tabs">
+          <button role="tab" id="tab-AIR" aria-controls="tab-panel" aria-selected="true" data-task="AIR"><strong>AIR</strong><span>属性与身份回忆</span><small>92 对</small></button>
+          <button role="tab" id="tab-HSR" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="HSR"><strong>HSR</strong><span>历史状态回忆</span><small>77 对</small></button>
+          <button role="tab" id="tab-EOR" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="EOR"><strong>EOR</strong><span>事件顺序推理</span><small>65 对</small></button>
+          <button role="tab" id="tab-HAC" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="HAC"><strong>HAC</strong><span>历史动作计数</span><small>57 对</small></button>
+          <button role="tab" id="tab-MEI" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="MEI"><strong>MEI</strong><span>多事件整合</span><small>59 对</small></button>
+        </div>
+          <div class="tab-panel" id="tab-panel" role="tabpanel" aria-labelledby="tab-AIR">
+          <p class="task-description" id="task-description"></p>
+          <div class="example-selector" id="example-selector" hidden><span>样例</span><div id="example-buttons" role="group" aria-label="本任务中的样例"></div></div>
+          <div class="question">
+            <p class="question-label">两段视频回答同一个问题</p>
+            <p class="question-text" id="question-text"></p>
+            <ol class="question-options" id="question-options" type="A"></ol>
+          </div>
+          <div class="video-grid">
+            <figure class="video-card a"><figcaption>历史片段 A</figcaption><div class="video-box"><video id="video-a" playsinline muted preload="none" aria-label="包含历史片段 A 的视频"></video><button class="video-overlay" data-play aria-label="同时播放两段视频"><span aria-hidden="true"></span></button></div></figure>
+            <figure class="video-card b"><figcaption>历史片段 B</figcaption><div class="video-box"><video id="video-b" playsinline muted preload="none" aria-label="包含历史片段 B 的视频"></video><button class="video-overlay" data-play aria-label="同时播放两段视频"><span aria-hidden="true"></span></button></div></figure>
+          </div>
+          <div class="player">
+            <button class="play-button" id="play-pair" type="button">同时播放</button>
+            <span class="time"><span id="elapsed">0:00</span> / <span id="duration">0:00</span></span>
+            <div class="timeline" id="timeline-track"><input id="timeline" type="range" min="0" max="45" step="0.1" value="0" aria-label="同步调整两段视频的播放进度"></div>
+            <label class="speed"><span class="visually-hidden">播放速度</span><select id="playback-rate"><option value="1">1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
+          </div>
+          <div class="player-legend">
+            <button type="button" class="legend-jump hist" id="jump-evidence"><i aria-hidden="true"></i>历史片段：A 与 B 不同</button>
+            <button type="button" class="legend-jump shared" id="jump-shared"><i aria-hidden="true"></i>共享后缀：两段视频逐帧相同</button>
+            <span id="player-status" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+        <p class="figure-note">这里展示了 350 对视频中的 8 对，均保留完整时长。点击进度条下方的两个标签，可分别跳到决定答案的历史证据，以及共享后缀的起点。</p>
+      </div>
+    </section>
+
+    <section class="band tinted" id="results" aria-labelledby="results-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="results-title">流式系统最多答对约 49% 的视频对</h2>
+          <p>我们评测了 34 种模型与输入配置。评测结果表明，这些视频对可以被正确解答，流式系统仍有很大的提升空间。</p>
+        </header>
+        <div class="trio">
+          <div class="card stat stream"><p class="kicker">最强流式系统</p><p class="big">49.14%</p><p>Qwen3.8-Omni-Flash-Realtime。11 个流式系统的 PairAcc 范围为 0.29%–49.14%。</p></div>
+          <div class="card stat general"><p class="kicker">通用多模态大模型</p><p class="big">66.57–91.43%</p><p>9 个模型，均通过各自原生的视频 API 接收完整视频。</p></div>
+          <div class="card stat human"><p class="kicker">人类表现</p><p class="big">88.29%</p><p>允许回看视频时，人类的 PairAcc 为 88.29%；只看一遍、到提问时才看到问题时，则为 65.43%。</p></div>
+        </div>
+
+        <figure class="card chart-card" aria-labelledby="outcome-caption">
+          <div class="chart-head">
+            <h3>350 对视频的回答结果分布</h3>
+            <div class="chart-legend" aria-hidden="true">
+              <span><i class="k-both"></i>两个答案均正确（PairAcc）</span>
+              <span><i class="k-diff"></i>答案不同，但未全部正确</span>
+              <span><i class="k-same"></i>答案相同，或未得到有效答案</span>
+            </div>
+          </div>
+          <div id="outcome-chart" class="outcome-chart"></div>
+          <figcaption id="outcome-caption">各类回答结果占全部视频对的比例（%）。条形图前两部分之和为 <em>D</em>，即得到两个不同有效答案的视频对占比。右侧数值为 PairAcc。流式模型在离线设置下的结果列在下方完整表格中。见论文表 2。</figcaption>
+        </figure>
+
+        <div class="finding">
+          <div class="prose">
+            <h3>主要失败表现：先前内容不同，答案却相同</h3>
+            <p>流式系统在至多 57.14% 的视频对上给出两个不同的有效答案，通用模型的这一比例为 78.57–93.71%。一旦给出了不同答案，流式系统往往能同时答对：11 个系统中有 9 个，在这部分视频对上两个答案均正确的比例为 69.17–86.00%。</p>
+            <p>同一模型系列内部也有类似现象。Qwen3.8-Omni-Flash 实时版本的 PairAcc 比非实时版本低 33.72 个百分点，主要原因是实时版本较少对两段视频给出不同答案，而不是在给出不同答案后更容易答错。</p>
+          </div>
+          <figure class="card mini" aria-labelledby="family-caption">
+            <p class="mini-title">Qwen3.8-Omni-Flash <span><i class="k-rt"></i>实时版本</span><span><i class="k-nrt"></i>非实时版本</span></p>
+            <div class="hbars">
+              <p>PairAcc</p><div><span class="hbar rt" style="--v:49.14%">49.14</span><span class="hbar nrt" style="--v:82.86%">82.86</span></div>
+              <p><em>D</em>：给出不同答案的比例</p><div><span class="hbar rt" style="--v:57.14%">57.14</span><span class="hbar nrt" style="--v:89.14%">89.14</span></div>
+              <p><em>C</em>：答案不同时，两个答案均正确的比例</p><div><span class="hbar rt" style="--v:86%">86.00</span><span class="hbar nrt" style="--v:92.95%">92.95</span></div>
+            </div>
+            <figcaption id="family-caption">PairAcc = <em>D</em> × <em>C</em>。差距主要来自 <em>D</em>。见论文表 2。</figcaption>
+          </figure>
+        </div>
+
+        <figure class="card chart-card" aria-labelledby="task-caption">
+          <div class="chart-head">
+            <h3>动作计数与多事件问题最难</h3>
+            <div class="chart-legend" aria-hidden="true">
+              <span><i class="k-stream"></i>流式系统</span>
+              <span><i class="k-general"></i>通用多模态大模型</span>
+              <span><i class="k-human"></i>人类（允许回看）</span>
+            </div>
+          </div>
+          <div id="task-chart" class="task-chart"></div>
+          <figcaption id="task-caption">各任务的 PairAcc（%），每个标记代表一个系统。流式系统在动作计数上最高为 15.8%，在多事件整合上最高为 25.4%；对于计数任务，它们在 73.7–100% 的视频对上给出相同答案。将鼠标移到标记上，或用键盘选中标记，即可查看该系统在各任务上的表现。见论文图 3。</figcaption>
+        </figure>
+
+        <div class="finding">
+          <div class="prose">
+            <h3>同时答对一对视频，需要用到标注的历史证据</h3>
+            <p>我们从各任务中均衡抽取 175 对视频，遮挡历史画面中已标注的、决定答案的区域；作为对照，也在这些帧的其他位置遮挡相同面积。在 23 种配置中，遮挡非关键区域使 PairAcc 变化不超过 3.43 个百分点，而遮挡关键区域后，PairAcc 最高仅为 18.86%。</p>
+            <p>这说明，要同时答对一对视频，需要用到特定的历史证据，仅仅增加输入长度还不够。</p>
+          </div>
+          <figure class="card mini" aria-labelledby="mask-caption">
+            <div class="table-scroll" tabindex="0" role="region" aria-label="证据遮挡条件下的 PairAcc">
+              <table class="mask-table">
+                <thead><tr><th scope="col">模型</th><th scope="col">原始视频</th><th scope="col">遮挡非关键区域</th><th scope="col">遮挡关键区域</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Qwen3.8-Omni-Flash</th><td style="--v:82.86%">82.86</td><td style="--v:81.71%">81.71</td><td class="drop" style="--v:12%">12.00</td></tr>
+                  <tr><th scope="row">Qwen3.8-Omni-Flash-Realtime</th><td style="--v:47.43%">47.43</td><td style="--v:49.14%">49.14</td><td class="drop" style="--v:2.86%">2.86</td></tr>
+                  <tr><th scope="row">Qwen3-VL-8B，离线</th><td style="--v:33.71%">33.71</td><td style="--v:32%">32.00</td><td class="drop" style="--v:1.14%">1.14</td></tr>
+                  <tr><th scope="row">StreamForest</th><td style="--v:33.14%">33.14</td><td style="--v:32.57%">32.57</td><td class="drop" style="--v:4.57%">4.57</td></tr>
+                  <tr><th scope="row">ReKV</th><td style="--v:25.14%">25.14</td><td style="--v:24.57%">24.57</td><td class="drop" style="--v:1.14%">1.14</td></tr>
+                  <tr><th scope="row">OneStreamer</th><td style="--v:21.14%">21.14</td><td style="--v:24%">24.00</td><td class="drop" style="--v:0%">0.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <figcaption id="mask-caption">同一批 175 对视频上的 PairAcc（%）。见论文表 3。</figcaption>
+          </figure>
+        </div>
+
+        <div class="finding">
+          <div class="prose">
+            <h3>证据与提问的时间间隔越长，PairAcc 越低</h3>
+            <p>我们还在全部 350 对视频上进行了两组实验，只改变决定答案的证据与提问之间的时间间隔。去掉共享后缀，就在历史片段结束后立即提问；在两段视频中插入相同的、不含语义内容的中性片段（30–600 秒），则会延长这一间隔。</p>
+            <p>离线参考模型将所有采样帧都保留在上下文中，PairAcc 始终保持在 41.14%–46.29%，说明拉长时间间隔后，这些视频对仍可被正确解答。各流式系统的表现则以不同方式下降：ReKV 和 StreamForest 逐步下降；OneStreamer 仅插入 30 秒片段便出现下降，之后趋于平稳；MiniCPM-o 4.5 在插入时长不超过一分钟时基本稳定，随后降至 9.14%。</p>
+            <p>对于需要压缩或筛选历史记忆的系统，去掉共享后缀带来的提升最明显：OneStreamer 的 PairAcc 提升 26.00 个百分点，StreamForest 提升 11.71 个百分点，ReKV 提升 5.71 个百分点；离线参考模型则仅提升 2.57 个百分点。</p>
+          </div>
+          <figure class="card mini" aria-labelledby="distance-caption">
+            <p class="mini-title">证据与提问的时间间隔如何影响 PairAcc</p>
+            <div class="distance-chart" id="distance-chart"></div>
+            <figcaption id="distance-caption">全部 350 对视频上的 PairAcc（%）。横轴按实验条件依次排列，刻度间距不代表实际时间差。选择一个系统可查看具体数值。“原始视频”的得分来自本次实验的重新运行结果（StreamForest 此处为 35.14，主表为 35.43）。离线参考模型为 Qwen3-VL-4B，以每秒 1 帧接收完整历史，不能与表中 Qwen3-VL-8B 的结果直接比较。插入 600 秒片段时，MiniCPM-o 4.5 的输入超过了其配置的长度上限。见论文表 S4、表 S5。</figcaption>
+          </figure>
+        </div>
+
+        <details class="full-table card" id="full-results">
+        <summary>完整结果：34 种配置与两种人类评测设置</summary>
+        <p class="table-note">各任务列与 Acc. 统计单个答案的正确率；PairAcc 则要求同一对中的两个答案都正确。 <em>D</em>：得到两个不同有效答案的视频对占比。 <em>C</em>：在答案不同的视频对中，两个答案都正确的比例。因此，PairAcc = <em>D</em> × <em>C</em>。 <em>R</em>：将两个视频的正确答案恰好答反的视频对占比。 <em>S</em> = PairAcc − <em>R</em>。 <a href="assets/results.csv" download="twinpast-table-2.csv">下载 CSV</a>。</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="TwinPast 完整结果；横向滚动可查看全部列">
+          <table id="results-table" class="results-table">
+            <thead><tr><th scope="col">系统 / 模型</th><th scope="col">AIR</th><th scope="col">HSR</th><th scope="col">EOR</th><th scope="col">HAC</th><th scope="col">MEI</th><th scope="col">Acc.</th><th scope="col" class="pair-column">PairAcc</th><th scope="col"><em>D</em></th><th scope="col"><em>C</em></th><th scope="col"><em>R</em></th><th scope="col"><em>S</em></th></tr></thead>
+            <tbody id="results-body"></tbody>
+          </table>
+        </div>
+      </details>
+      </div>
+    </section>
+
+    <section class="band" id="cases" aria-labelledby="cases-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="cases-title">证据仍在，答案却错了</h2>
+          <p>对两段视频给出相同答案，可能是因为模型在提问前丢失了区分二者的证据。但这并非唯一的失败原因：在下面两个案例中，决定答案的证据在最终作答时仍然可用，回答却与证据矛盾。</p>
+        </header>
+        <article class="case card" aria-labelledby="rekv-title">
+        <header><h3 id="rekv-title">ReKV：保留了画面，却答成了另一个时刻的状态</h3>
+        <p class="case-question"><span>问题</span>在清洁烤箱的特写出现之前，<strong>第一个厨房镜头结束时</strong>，烤箱门是开着还是关着？</p></header>
+        <div class="case-rows">
+          <div class="case-row a">
+            <p class="case-branch">历史片段 A</p>
+            <div class="strip strip-5">
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV，历史片段 A，0 秒"><img src="assets/evidence/history/rekv-A-0s.png" width="640" height="360" loading="lazy" alt="历史片段 A，0 秒：烤箱门开着"></button><figcaption>0 秒 <span>开着</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV，历史片段 A，1 秒"><img src="assets/evidence/history/rekv-A-1s.png" width="640" height="360" loading="lazy" alt="历史片段 A，1 秒：烤箱门正在关闭"></button><figcaption>1 秒</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV，历史片段 A，2 秒"><img src="assets/evidence/history/rekv-A-2s.png" width="640" height="360" loading="lazy" alt="历史片段 A，2 秒：烤箱门关着"></button><figcaption>2 秒</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV，历史片段 A，3 秒"><img src="assets/evidence/history/rekv-A-3s.png" width="640" height="360" loading="lazy" alt="历史片段 A，3 秒：烤箱门关着"></button><figcaption>3 秒</figcaption></figure>
+              <figure class="queried"><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV，历史片段 A，4 秒"><img src="assets/evidence/history/rekv-A-4s.png" width="640" height="360" loading="lazy" alt="历史片段 A，4 秒，镜头结束：烤箱门关着"></button><figcaption>4 秒 <span>关着，镜头结束</span></figcaption></figure>
+            </div>
+            <dl class="verdict"><div><dt>正确答案</dt><dd>关着</dd></div><div class="wrong"><dt>ReKV</dt><dd>开着</dd></div></dl>
+          </div>
+          <div class="case-row b">
+            <p class="case-branch">历史片段 B</p>
+            <div class="strip strip-5">
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV，历史片段 B，0 秒"><img src="assets/evidence/history/rekv-B-0s.png" width="640" height="360" loading="lazy" alt="历史片段 B，0 秒：烤箱门关着"></button><figcaption>0 秒 <span>关着</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV，历史片段 B，1 秒"><img src="assets/evidence/history/rekv-B-1s.png" width="640" height="360" loading="lazy" alt="历史片段 B，1 秒：烤箱门关着"></button><figcaption>1 秒</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV，历史片段 B，2 秒"><img src="assets/evidence/history/rekv-B-2s.png" width="640" height="360" loading="lazy" alt="历史片段 B，2 秒：烤箱门开始打开"></button><figcaption>2 秒</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV，历史片段 B，3 秒"><img src="assets/evidence/history/rekv-B-3s.png" width="640" height="360" loading="lazy" alt="历史片段 B，3 秒：烤箱门开着"></button><figcaption>3 秒</figcaption></figure>
+              <figure class="queried"><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV，历史片段 B，4 秒"><img src="assets/evidence/history/rekv-B-4s.png" width="640" height="360" loading="lazy" alt="历史片段 B，4 秒，镜头结束：烤箱门开着"></button><figcaption>4 秒 <span>开着，镜头结束</span></figcaption></figure>
+            </div>
+            <dl class="verdict"><div><dt>正确答案</dt><dd>开着</dd></div><div class="wrong"><dt>ReKV</dt><dd>关着</dd></div></dl>
+          </div>
+        </div>
+        <p class="case-note">ReKV 每 2 秒采样一次，并在作答时获得每段历史的全部 8 张采样帧，其中包括第 0 秒和第 4 秒的画面。虽然它对两段历史给出了不同答案，却都答成了初始状态，而不是问题指定时刻的状态，恰好将两个视频的正确答案答反。</p>
+      </article>
+        <article class="case card" aria-labelledby="one-title">
+        <header><h3 id="one-title">OneStreamer：记对了顺序，却答反了</h3>
+        <p class="case-question"><span>问题</span>在深色桌面上的打包场景中，哪个物品<strong>先</strong>被放入高纸箱：黑色发刷，还是透明的扳机式喷雾瓶？</p></header>
+        <div class="case-rows">
+          <div class="case-row a">
+            <p class="case-branch">历史片段 A</p>
+            <div class="strip strip-4">
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer，历史片段 A，6 秒"><img src="assets/evidence/history/onestreamer-A-6s.png" width="640" height="360" loading="lazy" alt="6 秒时，人物拿起喷雾瓶，发刷仍在桌上"></button><figcaption>6 秒 <span>拿起喷雾瓶</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer，历史片段 A，7 秒"><img src="assets/evidence/history/onestreamer-A-7s.png" width="640" height="360" loading="lazy" alt="7 秒时，喷雾瓶已在箱内，发刷仍在桌上"></button><figcaption>7 秒 <span>喷雾瓶已入箱</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer，历史片段 A，9 秒"><img src="assets/evidence/history/onestreamer-A-9s.png" width="640" height="360" loading="lazy" alt="9 秒时，人物拿起发刷"></button><figcaption>9 秒 <span>拿起发刷</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer，历史片段 A，10 秒"><img src="assets/evidence/history/onestreamer-A-10s.png" width="640" height="360" loading="lazy" alt="10 秒时，发刷被放入箱内"></button><figcaption>10 秒 <span>发刷入箱</span></figcaption></figure>
+            </div>
+            <dl class="verdict"><div><dt>正确答案</dt><dd>喷雾瓶</dd></div><div class="wrong"><dt>OneStreamer</dt><dd>发刷</dd></div></dl>
+          </div>
+        </div>
+        <div class="memory">
+          <p class="memory-title">最终提问时，OneStreamer 保存的文本记忆（中文译文）</p>
+          <blockquote><span>2–7 秒</span>“这个人拿起一个贴有蓝色标签的白色小罐、一支白色走珠除臭剂，以及一个带白色泵头的<strong>透明喷雾瓶</strong>，依次放进箱子。”</blockquote>
+          <blockquote><span>7–10 秒</span>“这个人从桌上拿起一把灰色手柄的<strong>黑色发刷</strong>，放进箱子。”</blockquote>
+        </div>
+        <p class="case-note">文本记忆正确记录了两件物品放入箱子的先后顺序，回答却与之相反。仅仅保留证据还不够，模型作答时还需要把证据与问题询问的时间关系对应起来。</p>
+      </article>
+        <div class="more-cases">
+          <div class="card"><p class="kicker">AURA · 多事件整合</p><p>有 46 对多事件视频的选项同时涉及两个二元事实。在其中 13 对里，两个事实都发生了变化，但 AURA 只识别出其中一个的变化，对另一个仍给出相同判断。</p></div>
+          <div class="card"><p class="kicker">VideoLLM-online · 动作计数</p><p>当被问到场景切换前完成了多少次拍手时，无论视频中拍了六次还是九次，模型都回答“你在拍手”。它说出了动作名称，却没有报告次数。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band tinted" id="citation" aria-labelledby="citation-title">
+      <div class="wrap">
+        <header class="section-head"><h2 id="citation-title">引用</h2></header>
+        <div class="bibtex">
+          <button type="button" id="copy-citation" hidden>复制 BibTeX</button>
+          <pre tabindex="0" aria-label="BibTeX 引用条目"><code id="citation-bibtex">@misc{yang2026twinpastbenchmarkinghistoricalevidence,
+  title={TwinPast: Benchmarking Historical Evidence Use in Streaming Video Understanding with Evidence Contrastive Video Pairs},
+  author={Haotian Yang and Yong Chen and Cheng Peng and Haobo Wang and Zhongle Xie and Xuanru Li and Gang Chen},
+  year={2026},
+  eprint={2610.41983},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2610.41983},
+}</code></pre>
+        </div>
+        <p class="copy-status" id="citation-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-foot">
+    <div class="wrap">
+      <a class="brand" href="#top"><img src="assets/favicon.svg?v=2" width="26" height="26" alt="">TwinPast</a>
+      <nav aria-label="资源"><a href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer">论文</a><a href="https://github.com/Yh1zzzzzzz/TwinPast_code" target="_blank" rel="noopener noreferrer">代码</a><a href="https://huggingface.co/datasets/younght/TwinPast" target="_blank" rel="noopener noreferrer">数据集</a><a href="#top">返回顶部</a></nav>
+    </div>
+  </footer>
+
+  <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
+    <div class="viewer-head"><p id="viewer-title"></p><button type="button" id="viewer-close">关闭</button></div>
+    <img id="viewer-image" alt="" width="640" height="360">
+    <div class="viewer-nav"><button type="button" id="viewer-prev">上一帧</button><span id="viewer-position" role="status" aria-live="polite"></span><button type="button" id="viewer-next">下一帧</button></div>
+  </dialog>
+  <noscript><p class="noscript">视频播放器、图表和完整表格需要启用 JavaScript。也可下载结果文件： <a href="assets/results.csv">CSV</a>。</p></noscript>
+</body>
+</html>

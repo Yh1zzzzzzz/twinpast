@@ -1,10 +1,10 @@
 {
   "groups": {
-    "A": "Online / streaming",
-    "B": "Offline video",
+    "A": "Online / streaming video LLMs",
+    "B": "Offline video LLMs",
     "C": "General-purpose MLLMs",
-    "D": "Recent-window baselines",
-    "E": "Text-only baselines",
+    "D": "Recent-window baselines (SimpleStream style)",
+    "E": "Blind LLMs (no visual input)",
     "F": "Human references"
   },
   "results": [
@@ -542,15 +542,15 @@
       "HAC": 76.48,
       "MEI": 83.15,
       "acc": 79.69,
-      "pair": 65.29,
-      "D": 70.91,
-      "C": 92.07,
+      "pair": 65.43,
+      "D": 70.86,
+      "C": 92.34,
       "R": 0.0,
-      "S": 65.29
+      "S": 65.43
     }
   ],
   "source": "Manuscript, Table 2",
   "scope": "700 branches · 350 pairs",
   "humanNote": "Human offline replay covers all 350 pairs. The streaming reference extrapolates 105 sampled pairs using shared calibrated pair weights. Both participants had prior dataset exposure.",
-  "sourceDocument": "User-provided main.pdf, page 7 (2026-10-28)"
+  "sourceDocument": "User-provided draft_with_appendix.pdf, page 6 (2026-11-13)"
 }

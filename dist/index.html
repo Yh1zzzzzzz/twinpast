@@ -3,236 +3,379 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f8f3">
-  <meta name="description" content="TwinPast: 350 paired histories, five historical tasks, and one shared recent context. A benchmark for historical evidence use in streaming video understanding.">
-  <meta property="og:title" content="TwinPast — Does the answer follow the history?">
-  <meta property="og:description" content="Controlled historical contrasts under identical recent observations. Explore the evidence, paired evaluation, and findings from TwinPast.">
+  <meta name="theme-color" content="#f4f6f9">
+  <meta name="description" content="TwinPast is a benchmark of 350 human-reviewed video pairs. The two videos of a pair share the same recent frames, question and options, and differ only in earlier events and in the correct answer.">
+  <meta property="og:title" content="TwinPast: Benchmarking Historical Evidence Use in Streaming Video Understanding">
+  <meta property="og:description" content="350 video pairs with identical recent frames, questions and options but different histories and answers. A pair counts only if both videos are answered correctly.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yh1zzzzzzz.github.io/twinpast/">
   <meta property="og:image" content="https://yh1zzzzzzz.github.io/twinpast/assets/TwinPast-preview.png">
   <meta property="og:image:width" content="1600">
   <meta property="og:image:height" content="900">
-  <meta property="og:image:alt" content="TwinPast: different histories converge into identical recent frames. Conceptual illustration.">
+  <meta property="og:image:alt" content="Two different video histories lead into identical recent frames. Conceptual illustration.">
   <meta name="twitter:card" content="summary_large_image">
-  <title>TwinPast — Does the answer follow the history?</title>
+  <title>TwinPast: Benchmarking Historical Evidence Use in Streaming Video Understanding</title>
   <link rel="icon" href="assets/favicon.ico?v=2" sizes="any">
   <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/Lora-Italic.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="project.css?v=story-20261030">
-  <link rel="stylesheet" href="story.css?v=release-20261102">
-  <link rel="stylesheet" href="evidence.css?v=20261030">
-  <script defer src="evidence.js?v=20261030"></script>
+  <link rel="alternate" hreflang="en" href="index.html">
+  <link rel="alternate" hreflang="zh-CN" href="zh.html">
+  <link rel="stylesheet" href="site.css?v=20261115-nav-language">
   <script defer src="cases.js"></script>
-  <script defer src="results.js"></script>
-  <script defer src="app.js"></script>
-  <script defer src="project.js?v=release-20261102"></script>
+  <script defer src="results.js?v=20261113"></script>
+  <script defer src="site.js?v=20261115-i18n"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header"><nav class="nav wrap" aria-label="Main navigation"><a class="wordmark" href="#" aria-label="TwinPast home"><img src="assets/favicon.svg?v=2" alt="" width="30" height="30">TwinPast<span class="wordmark-dot">.</span></a><div class="nav-links"><a href="#motivation">Why TwinPast</a><a href="#design">Design</a><a href="#explore">Examples</a><a href="#results">Results</a><a href="#findings">Evidence use</a></div></nav></header>
-  <main id="main">
-    <section class="story-hero wrap" aria-labelledby="hero-title">
-      <h1 id="hero-title">Does the answer<br><em>follow the history?</em></h1>
-      <p class="hero-lead">A correct answer about the past does not tell us whether a model used that past.</p>
-      <p class="hero-subtitle">TwinPast changes the history while keeping recent frames and text identical, testing whether answers change <em>correctly</em> with the evidence.</p>
-      <div class="hero-actions"><a class="button primary" href="#design">See the paired design <span aria-hidden="true">↓</span></a><a class="text-link" href="#findings">Why memory is not enough <span aria-hidden="true">↗</span></a></div>
-      <p class="hero-facts">350 human-reviewed pairs <span>·</span> 700 videos <span>·</span> 5 historical tasks</p>
-    </section>
 
-    <section class="story-section motivation wrap" id="motivation" aria-labelledby="motivation-title">
-      <div class="section-heading"><div><p class="eyebrow">01 / THE EVALUATION PROBLEM</p><h2 id="motivation-title">Correct answers.<br>Uncertain use of history.</h2></div><p>We audited OVO-Bench and StreamingBench. A question about the past can be answered without observing that past in two ways.</p></div>
-      <div class="audit-evidence">
-        <article><span class="tiny-label audit-route"><span class="route-number">1</span> RECENT VISUAL EVIDENCE</span><div class="audit-number">32<span>%</span></div><h3>The answer may still be visible.</h3><p>Recent frames alone suffice for <strong>128 of 400 sampled historical questions</strong>. Answering these questions does not require earlier visual input.</p></article>
-        <article><span class="tiny-label audit-route"><span class="route-number">2</span> NO VISUAL INPUT</span><div class="audit-number paired-number">40.83<span>%</span> <i>/</i> 49.60<span>%</span></div><h3>The text may be enough to answer correctly.</h3><p>Qwen3-VL-8B and DeepSeek-Flash reach these accuracies using only the question and options, on the same <strong>4,276 questions</strong>.</p></article>
-      </div>
-
-      <p class="argument-bridge">The test we need: <strong>when the relevant history changes, does the answer change correctly?</strong></p>
-    </section>
-
-    <section class="story-section design-section wrap" id="design" aria-labelledby="design-title">
-      <div class="section-heading"><div><p class="eyebrow">02 / THE TWINPAST DESIGN</p><h2 id="design-title">Same recent frames.<br><em>Different answers.</em></h2></div><p>Keep the question, ordered options, and recent frames fixed. Change the historical evidence and its correct answer.</p></div>
-      <div class="hero-visual evidence-demo">
-        <div class="concept-heading"><h3>Was a boat visible earlier?</h3><span>One question, asked of both videos.</span></div>
-        <div class="hero-view-controls" role="group" aria-label="Compare historical or recent frames"><button data-hero-view="history" aria-pressed="true">1. Different historical evidence</button><button data-hero-view="recent" aria-pressed="false">2. Identical recent frames</button></div>
-        <div class="hero-history-grid" id="hero-frame-pair">
-          <figure class="history-still a"><figcaption><i></i> History 01</figcaption><div class="evidence-image"><img id="hero-frame-a" src="assets/media/pilot_r3_00073-A.jpg" alt="Rocky beach without the queried boat in the left foreground" width="640" height="360"><span class="evidence-region" aria-hidden="true"></span></div><span class="still-caption" id="hero-caption-a">Boat absent → No</span></figure>
-          <figure class="history-still b"><figcaption><i></i> History 02</figcaption><div class="evidence-image"><img id="hero-frame-b" src="assets/media/pilot_r3_00073-B.jpg" alt="Corresponding beach with the queried blue-green boat in the left foreground" width="640" height="360"><span class="evidence-region" aria-hidden="true"></span></div><span class="still-caption" id="hero-caption-b">Boat present → Yes</span></figure>
-        </div>
-        <div class="fixed-context"><span class="equals-sign" aria-hidden="true">=</span><p><strong>Recent frames, question, and options stay identical.</strong><span id="hero-demo-note" role="status">The earlier boat evidence determines the answer.</span></p></div>
-        <a class="concept-video-link" href="#explore" data-explore-pair="pilot_r3_00073">Watch this video pair <span aria-hidden="true">↗</span></a>
-      </div>
-
-      <div class="design-timeline" aria-label="Two independently evaluated videos: different histories, identical recent frames, the same question, and different correct answers">
-        <div><span class="timeline-branch">History 01</span><span class="history-segment">Boat absent</span><span class="shared-segment">Identical recent frames</span><strong>No</strong></div>
-        <div><span class="timeline-branch">History 02</span><span class="history-segment">Boat present</span><span class="shared-segment">Identical recent frames</span><strong>Yes</strong></div>
-        <p>Two independent evaluations · The same question and options · Both answers must be correct</p>
-      </div>
-      <div class="pair-explainer" aria-labelledby="pair-rule-title">
-        <div class="pair-rule-copy"><span class="tiny-label">WHY EVALUATE A PAIR?</span><h3 id="pair-rule-title">Two correct answers.<br>One successful pair.</h3><p><strong>PairAcc is the fraction of pairs with both answers correct.</strong> Each video is evaluated independently. Repeating an answer favored by their shared inputs can get one branch right, but cannot solve the pair.</p></div>
-        <div class="pair-rule-demo">
-          <div class="rule-controls" role="group" aria-label="Example answer patterns"><button data-answer-pattern="repeat" aria-pressed="true">Repeat an answer</button><button data-answer-pattern="correct" aria-pressed="false">Follow the evidence</button><button data-answer-pattern="reverse" aria-pressed="false">Reverse the answers</button></div>
-          <div class="rule-predictions"><div><span>History 01 · boat absent</span><strong id="rule-answer-a">No <small>Correct</small></strong></div><div><span>History 02 · boat present</span><strong id="rule-answer-b">No <small>Incorrect</small></strong></div></div>
-          <div class="rule-scores" role="status" aria-live="polite"><div><span>Individual accuracy</span><strong id="rule-accuracy">50%</strong></div><div><span>Pair success</span><strong id="rule-pair">0%</strong></div><p id="rule-explanation">One correct answer is not enough to solve this pair.</p></div>
-        </div>
-      </div>
-
-
-    </section>
-    <section class="explore-section wrap" id="explore" aria-labelledby="explore-title">
-      <div class="section-heading"><div><p class="eyebrow">03 / EXPLORE THE DATASET</p><h2 id="explore-title">Watch the evidence change.</h2></div><p>Eight examples from 350 reviewed pairs. Recall attributes and states; reason about order, counts, and multiple events.</p></div>
-
-      <div class="task-tabs" role="tablist" aria-label="Historical tasks" id="task-tabs">
-        <button role="tab" id="tab-AIR" aria-controls="pair-panel" aria-selected="true" data-task="AIR"><span>01 · AIR</span><strong>Attributes & identity</strong></button>
-        <button role="tab" id="tab-HSR" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="HSR"><span>02 · HSR</span><strong>Historical states</strong></button>
-        <button role="tab" id="tab-EOR" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="EOR"><span>03 · EOR</span><strong>Event order</strong></button>
-        <button role="tab" id="tab-HAC" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="HAC"><span>04 · HAC</span><strong>Action counting</strong></button>
-        <button role="tab" id="tab-MEI" aria-controls="pair-panel" aria-selected="false" tabindex="-1" data-task="MEI"><span>05 · MEI</span><strong>Multi-event integration</strong></button>
-      </div>
-      <div class="pair-panel" id="pair-panel" role="tabpanel" aria-labelledby="tab-AIR">
-        <div class="pair-intro"><div><span class="task-code" id="task-code">AIR</span><h3 id="task-title">Attribute and Identity Recall</h3></div><span class="pair-count" id="pair-count">92 pairs in this task</span></div>
-        <p class="task-description" id="task-description">Retrieve an entity's identity or attributes from an earlier event.</p>
-        <div class="example-selector" id="example-selector" hidden><span class="tiny-label">EXPLORE EXAMPLES</span><div class="example-buttons" id="example-buttons" role="group" aria-label="Examples within this task"></div><span class="example-position" id="example-position" role="status" aria-live="polite"></span></div>
-        <div class="question-prompt"><span class="tiny-label">SAME QUESTION FOR BOTH VIDEOS</span><h4 id="question-text"></h4></div>
-        <div class="video-grid">
-          <figure class="video-card a"><figcaption><span><i></i> History 01</span><span class="phase-tag">HISTORICAL CONTEXT</span></figcaption><div class="video-container"><video id="video-a" playsinline muted preload="none" poster="assets/media/AIR-A.jpg" aria-label="Video for history 01"></video><button class="video-overlay" data-play aria-label="Play both histories"><span aria-hidden="true">▶</span></button><button class="fullscreen-button" data-fullscreen="a" aria-label="View history 01 fullscreen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></div></figure>
-          <figure class="video-card b"><figcaption><span><i></i> History 02</span><span class="phase-tag">HISTORICAL CONTEXT</span></figcaption><div class="video-container"><video id="video-b" playsinline muted preload="none" poster="assets/media/AIR-B.jpg" aria-label="Video for history 02"></video><button class="video-overlay" data-play aria-label="Play both histories"><span aria-hidden="true">▶</span></button><button class="fullscreen-button" data-fullscreen="b" aria-label="View history 02 fullscreen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></div></figure>
-        </div>
-        <div class="player-controls"><button class="play-button" id="play-pair" aria-label="Play both histories"><span id="play-symbol" aria-hidden="true">▶</span><span id="play-label">Play together</span></button><span class="time-display"><span id="elapsed">0:00</span> <span class="muted">/ <span id="duration">0:45</span></span></span><label class="speed-control"><span>Speed</span><select id="playback-rate" aria-label="Playback speed"><option value="1">1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><span class="sync-indicator"><i></i> Synced playback</span></div>
-        <div class="timeline-block"><div class="timeline-labels"><span>Historical evidence</span><span>Identical recent context</span></div><div class="timeline-track" id="timeline-track"><span class="suffix-marker" id="suffix-marker" aria-hidden="true"></span><input id="timeline" type="range" min="0" max="45.458" step="0.1" value="0" aria-label="Seek both videos" aria-valuetext="0:00"></div><div class="timeline-actions"><button class="small-link" id="jump-evidence">↶ Key historical evidence</button><button class="small-link" id="jump-shared">Shared ending →</button></div></div>
-        <p id="player-status" class="player-status" role="status" aria-live="polite">Choose play to load this pair. All videos retain their full timeline.</p>
-        <div class="question-block"><div class="question-content"><ol id="question-options" class="question-options" type="A"></ol><div class="answer-grid"><div class="answer-line" id="answer-a"><span>History 01 · correct answer</span><strong>Reveal below</strong></div><div class="answer-line" id="answer-b"><span>History 02 · correct answer</span><strong>Reveal below</strong></div></div><div class="reveal-row"><button id="reveal-answers" class="button dark" aria-expanded="false">Reveal the two answers <span aria-hidden="true">↗</span></button><p id="reveal-note">The recent context is shared.<br>The earlier evidence tells them apart.</p></div></div></div>
-      </div>
-    </section>
-
-
-
-    <section class="results-section wrap" id="results" aria-labelledby="results-title">
-      <div class="section-heading"><div><p class="eyebrow">04 / WHAT PAIRED EVALUATION REVEALS</p><h2 id="results-title">A different view<br>of historical understanding.</h2></div><p>34 model and input configurations. Individual accuracy and paired success tell different stories.</p></div>
-      <div class="accuracy-paradox"><div><span class="tiny-label">QWEN3-VL-8B / <strong>FOUR RECENT FRAMES</strong></span><h3>Correct on individual videos.<br>No pairs solved.</h3></div><div class="paradox-number"><strong>42%</strong><span>Individual accuracy</span></div><div class="paradox-number pair-zero"><strong>0%</strong><span>PairAcc</span></div></div>
-      <div class="results-focus">
-        <div class="results-message"><p class="eyebrow">FINDING 1</p><h3>History makes<br>the difference.</h3><p class="results-thesis">Access to earlier evidence improves both individual accuracy and paired success.</p><p>This reverses the recent-frame advantage in the reported comparisons on existing benchmarks. The same pattern holds for both tested models.</p></div>
-        <div class="comparison-card"><div class="chart-header"><h3>How many pairs are solved?</h3><label class="model-picker"><span>Model</span><select id="comparison-model"><option value="Qwen3-VL-8B">Qwen3-VL-8B</option><option value="DeepSeek-Flash">DeepSeek-Flash</option></select></label></div><div id="comparison-bars" class="comparison-bars"></div><div class="chart-scale" aria-hidden="true"><span>0%</span><span>50%</span><span>100%</span></div><p class="comparison-insight"><strong id="comparison-gain">+34.00</strong><span>percentage points in PairAcc<br>with historical input</span></p></div>
-      </div>
-      <div class="input-reversal" id="audit-details"><div class="reversal-intro"><h3>The input ranking reverses.</h3><p>Selected model: <strong id="ranking-model">Qwen3-VL-8B</strong>. Compare recent and historical input <strong>within each row</strong>.</p></div><div role="table" aria-label="Recent versus historical input, compared within each benchmark"><div class="reversal-row reversal-head" role="row"><span role="columnheader">Benchmark / metric</span><span role="columnheader">Recent 4 frames</span><span role="columnheader">History ≤64 frames</span></div><div id="input-ranking" role="rowgroup"></div></div></div>
-      <article class="streaming-finding" id="streaming-gap" aria-labelledby="streaming-title">
-        <div class="finding-intro"><div><p class="eyebrow">FINDING 2 / A GAP ACROSS EVERY TASK</p><h3 id="streaming-title">Even the best streaming system trails the lowest-scoring general-purpose model.</h3></div><p>This holds in <strong>all five historical tasks</strong>, across the 11 streaming systems and 9 general-purpose models evaluated.</p></div>
-        <figure class="task-gap-chart" aria-labelledby="gap-chart-title">
-          <figcaption id="gap-chart-title"><strong>Pairs solved correctly, by task</strong><span>PairAcc · both histories must be correct</span></figcaption>
-          <div class="gap-legend"><span><i class="streaming-key" aria-hidden="true"></i>Best streaming system</span><span><i class="general-key" aria-hidden="true"></i>Lowest-scoring general-purpose model</span></div>
-          <div class="task-axis" aria-hidden="true"><span>0%</span><span>50%</span><span>100%</span></div>
-          <div class="task-comparison">
-            <div class="task-comparison-label"><strong>AIR</strong><span>Attributes & identity</span></div>
-            <div class="task-comparison-bars">
-              <div class="task-bar streaming-bar" style="--score:75.0%"><span class="visually-hidden">Highest streaming PairAcc: MiniCPM-o 4.5, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>75.0%</strong></div>
-              <div class="task-bar general-bar" style="--score:82.6%"><span class="visually-hidden">Lowest general-purpose PairAcc: MiMo-V2.6-Flash, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>82.6%</strong></div>
-            </div>
-          </div>
-          <div class="task-comparison">
-            <div class="task-comparison-label"><strong>HSR</strong><span>Historical states</span></div>
-            <div class="task-comparison-bars">
-              <div class="task-bar streaming-bar" style="--score:53.2%"><span class="visually-hidden">Highest streaming PairAcc: Qwen3.8-Omni realtime, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>53.2%</strong></div>
-              <div class="task-bar general-bar" style="--score:68.8%"><span class="visually-hidden">Lowest general-purpose PairAcc: MiMo-V2.6-Flash, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>68.8%</strong></div>
-            </div>
-          </div>
-          <div class="task-comparison">
-            <div class="task-comparison-label"><strong>EOR</strong><span>Event order</span></div>
-            <div class="task-comparison-bars">
-              <div class="task-bar streaming-bar" style="--score:66.2%"><span class="visually-hidden">Highest streaming PairAcc: MiniCPM-o 4.5, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>66.2%</strong></div>
-              <div class="task-bar general-bar" style="--score:87.7%"><span class="visually-hidden">Lowest general-purpose PairAcc: MiMo-V2.6-Flash, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>87.7%</strong></div>
-            </div>
-          </div>
-          <div class="task-comparison">
-            <div class="task-comparison-label"><strong>HAC</strong><span>Action counting</span></div>
-            <div class="task-comparison-bars">
-              <div class="task-bar streaming-bar" style="--score:15.8%"><span class="visually-hidden">Highest streaming PairAcc: Qwen3.8-Omni realtime, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>15.8%</strong></div>
-              <div class="task-bar general-bar" style="--score:29.8%"><span class="visually-hidden">Lowest general-purpose PairAcc: MiMo-V2.6-Flash, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>29.8%</strong></div>
-            </div>
-          </div>
-          <div class="task-comparison">
-            <div class="task-comparison-label"><strong>MEI</strong><span>Multi-event integration</span></div>
-            <div class="task-comparison-bars">
-              <div class="task-bar streaming-bar" style="--score:25.4%"><span class="visually-hidden">Highest streaming PairAcc: Qwen3.8-Omni realtime, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>25.4%</strong></div>
-              <div class="task-bar general-bar" style="--score:50.8%"><span class="visually-hidden">Lowest general-purpose PairAcc: MiMo-V2.6-Flash, </span><span class="task-bar-fill" aria-hidden="true"></span><strong>50.8%</strong></div>
-            </div>
-          </div>
-          <p class="gap-chart-note">The best streaming system can differ by task. In every task, it still trails the lowest-scoring general-purpose model.</p>
-        </figure>
-        <div class="overall-gap"><span class="tiny-label">OVERALL PAIRACC</span><p><span class="streaming-value">49.14% <small>best streaming</small></span><span class="gap-less" aria-hidden="true">&lt;</span><span class="general-value">66.57% <small>lowest general-purpose</small></span></p><strong>A 17.43-point gap</strong></div>
-        <p class="source-note">Paper Figure 3 and Table 2. Bars use task <strong>PairAcc</strong>, not the individual task accuracy in Table 2. Streaming maxima: MiniCPM-o 4.5 (AIR, EOR), Qwen3.8-Omni realtime (HSR, HAC, MEI). General-purpose minima: MiMo-V2.6-Flash.</p>
-
-      </article>
-      <div class="within-family"><div><h3>The gap also appears within a model family.</h3><p>Qwen3.8-Omni’s realtime variant gives different valid answers on far fewer pairs. Its lower PairAcc accompanies weaker differentiation between histories.</p></div><div class="family-comparison" role="table" aria-label="Qwen3.8-Omni paired performance"><div class="family-row family-head" role="row"><span role="columnheader">Variant</span><span role="columnheader">Different answers <small>D</small></span><span role="columnheader">Both correct <small>PairAcc</small></span></div><div class="family-row" role="row"><span role="rowheader">Realtime</span><strong role="cell">57.14%</strong><strong role="cell">49.14%</strong></div><div class="family-row" role="row"><span role="rowheader">Non-realtime</span><strong role="cell">89.14%</strong><strong role="cell">82.86%</strong></div></div><p class="source-note">Paper Table 2. D counts different valid predictions, whether correct or incorrect. Variants and inference protocols differ. Among systems evaluated both online and offline, most have lower PairAcc online.</p></div>
-      <div class="results-reading">        <details class="reading-details prominent-disclosure" id="full-results"><summary><span>Full benchmark results <small>34 configurations + 2 human references</small></span><span class="disclosure-action"><span class="when-closed">Click to expand</span><span class="when-open">Click to collapse</span><span class="detail-plus" aria-hidden="true">+</span></span></summary><div class="details-body">
-          <div class="table-intro"><p>Paper Table 2. Task scores and Acc. measure individual answers; <strong>PairAcc</strong> requires both histories to be correct.</p><a class="text-link csv-link" href="assets/results.csv" download="twinpast-table-2.csv">Download CSV ↗</a></div>
-          <p>Evaluated streaming systems reach <strong>0.29–49.14%</strong> PairAcc; general-purpose native-video models reach <strong>66.57–91.43%</strong>. Input and inference protocols differ, so settings remain separate.</p>
-      <div class="result-filters" aria-label="Filter model settings" id="result-filters"><button data-group="all" aria-pressed="false">All settings</button><button data-group="A" aria-pressed="true">Streaming</button><button data-group="B" aria-pressed="false">Offline video</button><button data-group="C" aria-pressed="false">General-purpose</button><button data-group="D" aria-pressed="false">Recent window</button><button data-group="E" aria-pressed="false">Text only</button><button data-group="F" aria-pressed="false">Human</button></div>
-      <div class="table-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><input id="model-search" type="search" placeholder="Find a model…" aria-label="Find a model"></label><div><label class="diagnostic-toggle"><input id="show-diagnostics" type="checkbox"> Paired diagnostics</label><label class="sort-control"><span class="visually-hidden">Sort results within each setting</span><select id="result-sort"><option value="paper">Paper order</option><option value="pair">PairAcc ↓</option><option value="acc">Accuracy ↓</option></select></label></div></div>
-      <div class="table-scroll" role="region" aria-label="Benchmark results, scroll horizontally for all columns" tabindex="0"><table id="results-table"><caption class="visually-hidden">TwinPast Table 2. Model and offline human results cover 700 branches and 350 pairs. Human streaming is a weighted estimate from 105 sampled pairs.</caption><thead><tr><th scope="col">System / model</th><th scope="col"><abbr title="Attribute and Identity Recall">AIR</abbr></th><th scope="col"><abbr title="Historical State Recall">HSR</abbr></th><th scope="col"><abbr title="Event Order Reasoning">EOR</abbr></th><th scope="col"><abbr title="Historical Action Counting">HAC</abbr></th><th scope="col"><abbr title="Multi-Event Integration">MEI</abbr></th><th scope="col">Acc.</th><th scope="col" class="pair-column">PairAcc</th><th scope="col" class="diagnostic"><abbr title="Different valid predictions">D</abbr></th><th scope="col" class="diagnostic"><abbr title="Both correct, conditional on different valid predictions">C</abbr></th><th scope="col" class="diagnostic"><abbr title="Fully reversed answers">R</abbr></th><th scope="col" class="diagnostic"><abbr title="PairAcc minus reversal rate">S</abbr></th></tr></thead><tbody id="results-body"></tbody></table></div>
-      <p class="result-count" id="result-count" role="status"></p><div class="table-notes"><p id="diagnostic-notes" hidden><strong>Paired diagnostics.</strong> D: how often predictions differ validly; C: how often those differing predictions are both correct. PairAcc = D × C (using proportions). R: fully reversed answer pairs; S: PairAcc − R. “—” means undefined. Stochastic answer changes on identical inputs do not by themselves establish evidence use.</p></div>
-        </div></details>
-</div>
-    </section>
-
-    <section class="story-section findings-section wrap" id="findings" aria-labelledby="findings-title">
-      <div class="section-heading"><div><p class="eyebrow">05 / BEYOND RETAINING EVIDENCE</p><h2 id="findings-title">The evidence is there.<br><em>The answer does not follow it.</em></h2></div><p>These two streaming systems still have the evidence needed to answer. Yet their answers conflict with the requested moment or the event order recorded in memory.</p></div>
-      <div class="evidence-reading-path" aria-label="Read each case in order"><span>System &amp; question</span><i aria-hidden="true">→</i><span>Historical frames</span><i aria-hidden="true">→</i><span>Evidence at answer time</span><i aria-hidden="true">→</i><span>Model answer</span></div>
-
-      <article class="diagnostic-case" id="rekv-case" aria-labelledby="rekv-title">
-        <header class="diagnostic-header"><div><p class="tiny-label">CASE 01 / HISTORICAL STATE RECALL</p><h3 id="rekv-title">ReKV</h3></div><p>Visual memory is available.<br> The answer matches the wrong moment.</p></header>
-        <div class="diagnostic-question"><span class="tiny-label">QUESTION</span><p>Before the oven-cleaning close-up, was the oven door open or closed <strong>when the first kitchen shot ended?</strong></p><div class="case-options"><span>A. Closed</span><span>B. Open</span></div></div>
-        <section class="evidence-stage" aria-labelledby="rekv-history-title"><div class="stage-heading"><h4 id="rekv-history-title"><span>1</span> What happened in the history</h4><p>First kitchen shot · 1 frame per second</p></div>
-          <div class="reel-scroll" tabindex="0" role="region" aria-label="ReKV histories at one frame per second; scroll horizontally on narrow screens"><div class="paired-reels"><div class="history-reel"><div class="reel-label history-a"><strong>History A</strong><span>Open → Closed</span></div><div class="film-track reel-five"><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-A" data-frame-title="ReKV · History A · 0 s" aria-label="Enlarge ReKV · History A · 0 s"><img src="assets/evidence/history/rekv-A-0s.png" width="640" height="360" loading="lazy" alt="History A: oven door open"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>0 s</time><span>Initial state</span></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-A" data-frame-title="ReKV · History A · 1 s" aria-label="Enlarge ReKV · History A · 1 s"><img src="assets/evidence/history/rekv-A-1s.png" width="640" height="360" loading="lazy" alt="History A: oven door open as it starts to close"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>1 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-A" data-frame-title="ReKV · History A · 2 s" aria-label="Enlarge ReKV · History A · 2 s"><img src="assets/evidence/history/rekv-A-2s.png" width="640" height="360" loading="lazy" alt="History A: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>2 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-A" data-frame-title="ReKV · History A · 3 s" aria-label="Enlarge ReKV · History A · 3 s"><img src="assets/evidence/history/rekv-A-3s.png" width="640" height="360" loading="lazy" alt="History A: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>3 s</time></figcaption></figure><figure class="film-cell target-frame"><button type="button" class="frame-open" data-frame-group="rekv-history-A" data-frame-title="ReKV · History A · 4 s" aria-label="Enlarge ReKV · History A · 4 s"><img src="assets/evidence/history/rekv-A-4s.png" width="640" height="360" loading="lazy" alt="History A: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>4 s</time><span>Shot ends</span></figcaption></figure></div></div><div class="history-reel"><div class="reel-label history-b"><strong>History B</strong><span>Closed → Open</span></div><div class="film-track reel-five"><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-B" data-frame-title="ReKV · History B · 0 s" aria-label="Enlarge ReKV · History B · 0 s"><img src="assets/evidence/history/rekv-B-0s.png" width="640" height="360" loading="lazy" alt="History B: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>0 s</time><span>Initial state</span></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-B" data-frame-title="ReKV · History B · 1 s" aria-label="Enlarge ReKV · History B · 1 s"><img src="assets/evidence/history/rekv-B-1s.png" width="640" height="360" loading="lazy" alt="History B: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>1 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-B" data-frame-title="ReKV · History B · 2 s" aria-label="Enlarge ReKV · History B · 2 s"><img src="assets/evidence/history/rekv-B-2s.png" width="640" height="360" loading="lazy" alt="History B: oven door closed as it starts to open"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>2 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-history-B" data-frame-title="ReKV · History B · 3 s" aria-label="Enlarge ReKV · History B · 3 s"><img src="assets/evidence/history/rekv-B-3s.png" width="640" height="360" loading="lazy" alt="History B: oven door open"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>3 s</time></figcaption></figure><figure class="film-cell target-frame"><button type="button" class="frame-open" data-frame-group="rekv-history-B" data-frame-title="ReKV · History B · 4 s" aria-label="Enlarge ReKV · History B · 4 s"><img src="assets/evidence/history/rekv-B-4s.png" width="640" height="360" loading="lazy" alt="History B: oven door open"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>4 s</time><span>Shot ends</span></figcaption></figure></div></div></div></div>
-          <p class="film-hint"><span class="scroll-hint">Scroll to see the full filmstrip. </span>Select any frame to enlarge. The green outline marks the moment asked about.</p>
-        </section>
-        <section class="evidence-stage answer-time-evidence" aria-labelledby="rekv-memory-title"><div class="stage-heading"><h4 id="rekv-memory-title"><span>2</span> What ReKV had at answer time</h4><span class="retention-count"><strong>8 / 8</strong> sampled frames available per history</span></div>
-          <p class="stage-intro">All eight sampled frames were returned. They include <strong>both the initial state and the queried state</strong>; the relevant returned frames are shown here.</p>
-          <div class="memory-branches"><div class="memory-branch"><p class="reel-label history-a"><strong>History A</strong><span>Relevant returned frames</span></p><div class="memory-frame-grid"><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-memory-A" data-frame-title="ReKV · History A · 0 s" aria-label="Enlarge ReKV · History A · 0 s"><img src="assets/evidence/history/rekv-A-0s.png" width="640" height="360" loading="lazy" alt="History A: oven door open"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>0 s</time><span>Initial · Open</span></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-memory-A" data-frame-title="ReKV · History A · 2 s" aria-label="Enlarge ReKV · History A · 2 s"><img src="assets/evidence/history/rekv-A-2s.png" width="640" height="360" loading="lazy" alt="History A: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>2 s</time><span>Closed</span></figcaption></figure><figure class="film-cell target-frame"><button type="button" class="frame-open" data-frame-group="rekv-memory-A" data-frame-title="ReKV · History A · 4 s" aria-label="Enlarge ReKV · History A · 4 s"><img src="assets/evidence/history/rekv-A-4s.png" width="640" height="360" loading="lazy" alt="History A: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>4 s</time><span>Queried · Closed</span></figcaption></figure></div></div><div class="memory-branch"><p class="reel-label history-b"><strong>History B</strong><span>Relevant returned frames</span></p><div class="memory-frame-grid"><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-memory-B" data-frame-title="ReKV · History B · 0 s" aria-label="Enlarge ReKV · History B · 0 s"><img src="assets/evidence/history/rekv-B-0s.png" width="640" height="360" loading="lazy" alt="History B: oven door closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>0 s</time><span>Initial · Closed</span></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="rekv-memory-B" data-frame-title="ReKV · History B · 2 s" aria-label="Enlarge ReKV · History B · 2 s"><img src="assets/evidence/history/rekv-B-2s.png" width="640" height="360" loading="lazy" alt="History B: oven door closed as it starts to open"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>2 s</time><span>Closed</span></figcaption></figure><figure class="film-cell target-frame"><button type="button" class="frame-open" data-frame-group="rekv-memory-B" data-frame-title="ReKV · History B · 4 s" aria-label="Enlarge ReKV · History B · 4 s"><img src="assets/evidence/history/rekv-B-4s.png" width="640" height="360" loading="lazy" alt="History B: oven door open"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>4 s</time><span>Queried · Open</span></figcaption></figure></div></div></div>
-          <p class="sampling-caption">ReKV samples every 2 seconds: 0, 2, 4, 6, 8, 10, 12, 14 s. The 1 fps filmstrip above lets you inspect the history more closely.</p>
-        </section>
-        <section class="evidence-stage" aria-labelledby="rekv-answer-title"><div class="stage-heading"><h4 id="rekv-answer-title"><span>3</span> What ReKV answered</h4></div>
-          <div class="answer-pair"><div class="answer-outcome"><span class="outcome-history history-a">History A</span><div><span>ReKV</span><strong class="incorrect-output">Open <span aria-label="incorrect">×</span></strong></div><div><span>Correct answer</span><strong class="supported-output">Closed</strong></div></div><div class="answer-outcome"><span class="outcome-history history-b">History B</span><div><span>ReKV</span><strong class="incorrect-output">Closed <span aria-label="incorrect">×</span></strong></div><div><span>Correct answer</span><strong class="supported-output">Open</strong></div></div></div>
-          <p class="diagnostic-conclusion"><strong>The queried states are still available.</strong> Both answers match the initial states instead. Changing the answer is not enough: it must follow the time specified by the question.</p>
-        </section>
-      </article>
-
-      <article class="diagnostic-case" id="onestreamer-case" aria-labelledby="order-title">
-        <header class="diagnostic-header"><div><p class="tiny-label">CASE 02 / EVENT ORDER REASONING</p><h3 id="order-title">OneStreamer</h3></div><p>The order is recorded in memory.<br> The answer reverses it.</p></header>
-        <div class="diagnostic-question"><span class="tiny-label">QUESTION</span><p>In the packing scene at the dark table, which object was put into the tall cardboard box <strong>earlier?</strong></p><div class="case-options"><span>A. The black hairbrush</span><span>B. The clear trigger spray bottle</span></div></div>
-        <section class="evidence-stage" aria-labelledby="order-history-title"><div class="stage-heading"><h4 id="order-history-title"><span>1</span> What happened in the history</h4><p>History A · full packing scene · 1 frame per second</p></div>
-          <div class="reel-scroll" tabindex="0" role="region" aria-label="OneStreamer packing scene, 0 through 11 seconds; scroll horizontally on narrow screens"><div class="film-track reel-six"><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 0 s" aria-label="Enlarge OneStreamer · History A · 0 s"><img src="assets/evidence/history/onestreamer-A-0s.png" width="640" height="360" loading="lazy" alt="Packing scene at 0 seconds: bottle with yellow cap is being packed; spray bottle and hairbrush remain on the table"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>0 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 1 s" aria-label="Enlarge OneStreamer · History A · 1 s"><img src="assets/evidence/history/onestreamer-A-1s.png" width="640" height="360" loading="lazy" alt="Packing scene at 1 seconds: bottle with yellow cap is in the box"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>1 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 2 s" aria-label="Enlarge OneStreamer · History A · 2 s"><img src="assets/evidence/history/onestreamer-A-2s.png" width="640" height="360" loading="lazy" alt="Packing scene at 2 seconds: spray bottle and hairbrush remain on the table"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>2 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 3 s" aria-label="Enlarge OneStreamer · History A · 3 s"><img src="assets/evidence/history/onestreamer-A-3s.png" width="640" height="360" loading="lazy" alt="Packing scene at 3 seconds: small jar is picked up"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>3 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 4 s" aria-label="Enlarge OneStreamer · History A · 4 s"><img src="assets/evidence/history/onestreamer-A-4s.png" width="640" height="360" loading="lazy" alt="Packing scene at 4 seconds: small jar has been packed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>4 s</time></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 5 s" aria-label="Enlarge OneStreamer · History A · 5 s"><img src="assets/evidence/history/onestreamer-A-5s.png" width="640" height="360" loading="lazy" alt="Packing scene at 5 seconds: roll-on deodorant is being packed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>5 s</time></figcaption></figure><figure class="film-cell event-frame"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 6 s" aria-label="Enlarge OneStreamer · History A · 6 s"><img src="assets/evidence/history/onestreamer-A-6s.png" width="640" height="360" loading="lazy" alt="Packing scene at 6 seconds: person picks up the spray bottle"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>6 s</time><span>Spray bottle</span></figcaption></figure><figure class="film-cell event-frame"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 7 s" aria-label="Enlarge OneStreamer · History A · 7 s"><img src="assets/evidence/history/onestreamer-A-7s.png" width="640" height="360" loading="lazy" alt="Packing scene at 7 seconds: spray bottle is placed in the box; hairbrush remains on the table"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>7 s</time><span>Bottle packed</span></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 8 s" aria-label="Enlarge OneStreamer · History A · 8 s"><img src="assets/evidence/history/onestreamer-A-8s.png" width="640" height="360" loading="lazy" alt="Packing scene at 8 seconds: hairbrush remains on the table after the spray bottle"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>8 s</time></figcaption></figure><figure class="film-cell event-frame"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 9 s" aria-label="Enlarge OneStreamer · History A · 9 s"><img src="assets/evidence/history/onestreamer-A-9s.png" width="640" height="360" loading="lazy" alt="Packing scene at 9 seconds: person picks up the hairbrush"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>9 s</time><span>Hairbrush</span></figcaption></figure><figure class="film-cell event-frame"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 10 s" aria-label="Enlarge OneStreamer · History A · 10 s"><img src="assets/evidence/history/onestreamer-A-10s.png" width="640" height="360" loading="lazy" alt="Packing scene at 10 seconds: hairbrush is placed in the box"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>10 s</time><span>Brush packed</span></figcaption></figure><figure class="film-cell"><button type="button" class="frame-open" data-frame-group="onestreamer-history-A" data-frame-title="OneStreamer · History A · 11 s" aria-label="Enlarge OneStreamer · History A · 11 s"><img src="assets/evidence/history/onestreamer-A-11s.png" width="640" height="360" loading="lazy" alt="Packing scene at 11 seconds: box flaps are being closed"><span class="frame-zoom" aria-hidden="true">⤢</span></button><figcaption><time>11 s</time></figcaption></figure></div></div>
-          <p class="film-hint"><span class="scroll-hint">Scroll to see the full filmstrip. </span>Select any frame to enlarge. The spray bottle goes in before the hairbrush.</p>
-        </section>
-        <section class="evidence-stage answer-time-evidence" aria-labelledby="order-memory-title"><div class="stage-heading"><h4 id="order-memory-title"><span>2</span> What OneStreamer had at answer time</h4><p>Relevant memory excerpts supplied to final QA</p></div>
-          <div class="caption-memory"><blockquote><div><time>2–7 s</time><span>Earlier recorded event</span></div><p>“The person picks up a small white jar with a blue label, a white roll-on deodorant, and a <strong>clear spray bottle</strong> with a white pump, <strong>placing each into the box in turn.</strong>”</p></blockquote><span class="caption-order-arrow" aria-label="followed by">→</span><blockquote><div><time>7–10 s</time><span>Later recorded event</span></div><p>“The person picks up a <strong>black hairbrush</strong> with a grey handle from the table and <strong>places it into the box.</strong>”</p></blockquote></div>
-          <p class="memory-observation">Its own memory preserves <strong>both placements and their order</strong>.</p>
-        </section>
-        <section class="evidence-stage" aria-labelledby="order-answer-title"><div class="stage-heading"><h4 id="order-answer-title"><span>3</span> What OneStreamer answered</h4></div>
-          <div class="single-answer-outcome"><div><span>OneStreamer</span><strong class="incorrect-output">Hairbrush first <span aria-label="incorrect">×</span></strong></div><div><span>Correct answer</span><strong class="supported-output">Spray bottle first</strong></div></div>
-          <p class="diagnostic-conclusion"><strong>The necessary event order survived in memory.</strong> The final selection contradicts that order. Retaining the information did not make the answer follow it.</p>
-        </section>
-      </article>
-
-      <div class="additional-diagnostics">
-        <article><span class="tiny-label">AURA / COMBINING FACTS</span><h3>A changed option can still miss a changed fact.</h3><p>In 13 of 46 multi-event pairs combining two binary facts, AURA captures the change in one fact but repeats the other—even though both facts change.</p></article>
-        <article><span class="tiny-label">VIDEOLLM-ONLINE / FOLLOWING THE QUESTION</span><h3>An activity description cannot replace a count.</h3><p>The histories contain <strong>six and nine</strong> complete claps before a scene transition. Asked to choose the count, the model replies to both:</p><blockquote>“You clap your hands”</blockquote><p class="source-note">Training needs diverse QA tasks, temporal scopes, and answer formats alongside narration.</p></article>
-      </div>
-      <p class="source-note findings-scope">These cases establish specific errors with available evidence. A failed pair alone cannot tell us whether evidence was missed, forgotten, or used incorrectly.</p>
-      <div class="closing-argument" id="evidence-takeaway"><p class="eyebrow">THE TAKEAWAY</p><h2>Memory must support reasoning.</h2><p>These cases show that retrieving frames and recording events are not enough. Even when the needed memories remain available, the answer can conflict with them. Reliable streaming QA must connect that evidence to the question and reason over its spatial and temporal relationships to derive the final answer.</p><a class="text-link" href="#paper">About the paper <span aria-hidden="true">↓</span></a></div>
-    </section>
-    <section class="paper-section wrap" id="paper" aria-labelledby="paper-title">
-      <p class="eyebrow">ABOUT THE PAPER</p><h2 id="paper-title">TwinPast</h2><p class="paper-title">Benchmarking Historical Evidence Use in Streaming Video Understanding with Evidence Contrastive Video Pairs</p>
-
-      <nav class="resource-links" aria-label="Project resources">
-        <a href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer">Paper <span>arXiv <span aria-hidden="true">↗</span></span></a>
-        <a href="https://github.com/Yh1zzzzzzz/TwinPast_code" target="_blank" rel="noopener noreferrer">Code <span>GitHub <span aria-hidden="true">↗</span></span></a>
-        <a href="https://huggingface.co/datasets/younght/TwinPast" target="_blank" rel="noopener noreferrer">Dataset <span>Hugging Face <span aria-hidden="true">↗</span></span></a>
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top"><img src="assets/favicon.svg?v=2" width="30" height="30" alt="">TwinPast</a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#overview">Overview</a><a href="#audit">Audit</a><a href="#benchmark">Benchmark</a><a href="#results">Results</a><a href="#cases">Case studies</a><a href="#citation">Citation</a>
       </nav>
-      <details class="reading-details" id="about"><summary><span>Dataset scope and sources</span><span class="detail-plus" aria-hidden="true">+</span></summary><div class="details-body"><p>The 350 human-reviewed pairs cover attribute and identity recall (92), historical states (77), event order (65), action counting (57), and multi-event integration (59).</p><p>Source material comes from MVP, DyBench, ReCo-Data, DualityVidQA, VidPair-Halluc, and Perception Test.</p></div></details>
-      <section class="citation-section" id="citation" aria-labelledby="citation-title">
-        <div class="citation-heading"><h3 id="citation-title">Citation</h3><button type="button" id="copy-citation" hidden>Copy BibTeX</button></div>
-        <pre class="citation-code" tabindex="0" aria-label="TwinPast BibTeX citation"><code id="citation-bibtex">@misc{yang2026twinpastbenchmarkinghistoricalevidence,
+      <a class="nav-cta" href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer">Read the paper</a>
+      <nav class="language-switch" aria-label="Language">
+        <a href="index.html" lang="en" hreflang="en" aria-current="page">English</a>
+        <a href="zh.html" lang="zh-CN" hreflang="zh-CN">中文</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-top">
+          <div class="hero-copy">
+            <h1 id="hero-title"><span class="wordmark">TwinPast</span><span class="paper-title">Benchmarking Historical Evidence Use in Streaming Video Understanding with Evidence Contrastive Video Pairs</span></h1>
+            <p class="lede">A model can answer a question about the past without having used the past. TwinPast pairs two videos that end with the same recent frames and get the same question, while their earlier events differ, and so does the correct answer. A pair counts only if both videos are answered correctly.</p>
+            <div class="actions">
+              <a class="btn primary" href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h6.5L15 6v11.5H5z"/><path d="M11.5 2.5V6H15M7.5 10h5M7.5 13h5"/></svg>Paper<span>arXiv</span></a>
+              <a class="btn" href="https://github.com/Yh1zzzzzzz/TwinPast_code" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6l-4 4 4 4M13 6l4 4-4 4M11.2 4.5l-2.4 11"/></svg>Code<span>GitHub</span></a>
+              <a class="btn" href="https://huggingface.co/datasets/younght/TwinPast" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6" ry="2.5"/><path d="M4 5v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V5M4 10v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"/></svg>Dataset<span>Hugging Face</span></a>
+              <a class="btn" href="#citation"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 12.5c0-4 1.5-6.5 4.5-7.5M11 12.5c0-4 1.5-6.5 4.5-7.5"/><rect x="3.5" y="11" width="4.5" height="4.5" rx="1"/><rect x="10.5" y="11" width="4.5" height="4.5" rx="1"/></svg>BibTeX</a>
+            </div>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>350</dt><dd>human-reviewed video pairs</dd></div>
+            <div><dt>700</dt><dd>videos, 58 s on average</dd></div>
+            <div><dt>5</dt><dd>historical tasks</dd></div>
+            <div><dt>34</dt><dd>model and input configurations</dd></div>
+          </dl>
+        </div>
+
+        <figure class="pair-figure" aria-labelledby="pair-caption">
+          <div class="pf-diagram">
+            <div class="pf-histories">
+              <p class="pf-label a">History A <span>the dancer wears a black dress</span></p>
+              <div class="film a"><img src="assets/teaser/air-a-1.jpg" width="480" height="270" alt="History A: a dancer in a black dress in a studio"><img src="assets/teaser/air-a-2.jpg" width="480" height="270" alt="History A: the dancer in the black dress, arms extended"><img src="assets/teaser/air-a-3.jpg" width="480" height="270" alt="History A: the dancer in the black dress, facing the camera"></div>
+              <div class="film b"><img src="assets/teaser/air-b-1.jpg" width="480" height="270" alt="History B: a dancer in a white leotard in a studio"><img src="assets/teaser/air-b-2.jpg" width="480" height="270" alt="History B: the dancer in the white leotard, arms raised"><img src="assets/teaser/air-b-3.jpg" width="480" height="270" alt="History B: the dancer in the white leotard near the window"></div>
+              <p class="pf-label b">History B <span>the dancer wears a white leotard</span></p>
+            </div>
+            <svg class="pf-merge" viewBox="0 0 100 200" preserveAspectRatio="none" aria-hidden="true">
+              <path class="m-a" d="M0 54 C46 54 40 100 82 100"/>
+              <path class="m-b" d="M0 146 C46 146 40 100 82 100"/>
+              <path class="m-s" d="M78 100 H100"/>
+            </svg>
+            <div class="pf-shared">
+              <p class="pf-label s">Shared recent frames <span>identical in both videos</span></p>
+              <div class="film s"><img src="assets/teaser/air-shared-1.jpg" width="480" height="270" alt="Shared suffix: a different stage scene, dancer in dark clothes"><img src="assets/teaser/air-shared-2.jpg" width="480" height="270" alt="Shared suffix: the dancer seen from behind"><img src="assets/teaser/air-shared-3.jpg" width="480" height="270" alt="Shared suffix: the dancer with one arm extended"></div>
+              <p class="pf-sub">The last 30 s of both videos. Nothing here shows the earlier outfit.</p>
+            </div>
+          </div>
+          <div class="pf-qa">
+            <div class="pf-q">
+              <p class="kicker">Same question and options for both videos</p>
+              <p class="pf-question">In the earlier dance-studio scene, what was the dancer wearing?</p>
+              <p class="pf-options"><span>A. A black dress</span><span>B. A white leotard</span></p>
+            </div>
+            <dl class="pf-answers">
+              <div class="a"><dt>Correct for History A</dt><dd>A black dress</dd></div>
+              <div class="b"><dt>Correct for History B</dt><dd>A white leotard</dd></div>
+            </dl>
+            <p class="pf-rule"><strong>PairAcc</strong><span>The pair counts only when both videos are answered correctly.</span></p>
+          </div>
+          <figcaption id="pair-caption">One TwinPast pair, shown with frames from the two videos. Whatever the videos share (recent frames, question, ordered options) cannot tell them apart, so a predictor that relies on it gives both the same answer and solves no pair.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band" id="overview" aria-labelledby="overview-title">
+      <div class="wrap">
+        <h2 id="overview-title" class="visually-hidden">Overview</h2>
+        <ol class="summary">
+          <li><p class="kicker">The problem</p><p class="big">32%</p><p>of sampled historical-task questions in OVO-Bench and StreamingBench can be answered from the last three or four frames. The question text alone gets 41% and 50% for two models. Accuracy there does not show that history was used.</p></li>
+          <li><p class="kicker">The benchmark</p><p class="big">91% <span class="arrow" aria-label="drops to">→</span> 19%</p><p>PairAcc with the annotated historical evidence masked: from as high as 91% to at most 19%. Masking an equal area elsewhere changes it by at most 3.4 points, so solving a pair requires that evidence.</p></li>
+          <li><p class="kicker">The finding</p><p class="big">49%</p><p>of pairs are solved by the strongest streaming system. General-purpose MLLMs given each complete video solve 67–91%, and humans 88%. Streaming systems fail mainly by giving both histories the same answer.</p></li>
+        </ol>
+        <details class="abstract">
+          <summary>Read the abstract</summary>
+          <p>High accuracy on streaming video benchmarks does not show that a model uses visual history. Auditing OVO-Bench and StreamingBench, we find that recent frames alone suffice for 32% of sampled historical-task questions, and that the question and options alone also yield many correct answers. We introduce <strong>TwinPast</strong>, a benchmark of 350 human-reviewed video pairs spanning five historical tasks. The two videos in a pair share the recent video context, question, and ordered options, and differ in earlier events and therefore in the correct answer. Each video is evaluated independently and PairAcc requires both answers to be correct, so an answer determined by the shared inputs cannot solve a pair. Masking the annotated critical evidence lowers PairAcc from as high as 91% to at most 19%, whereas equal-area masking elsewhere changes it by at most 3.4 points. The strongest streaming system reaches 49% PairAcc, while general-purpose MLLMs given each complete video reach 67–91%, leaving substantial headroom. Streaming systems fail mainly by giving both histories the same answer. They give different valid answers on at most 57% of pairs, while the general-purpose MLLMs do so on 79–94%. Case studies further show wrong answers when the deciding evidence is still available at the final query.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="band tinted" id="audit" aria-labelledby="audit-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="audit-title">Correct answers without history</h2>
+          <p>We audited OVO-Bench and StreamingBench and found two ways to answer a question about earlier events without observing them.</p>
+        </header>
+        <div class="facts">
+          <div class="card fact"><p class="fact-number">32%</p><h3>The answer is still on screen</h3><p>In a manual review, the three or four most recent frames alone support the reference answer for 128 of the 400 questions sampled from historical tasks.</p></div>
+          <div class="card fact"><p class="fact-number">40.83% <span>and</span> 49.60%</p><h3>The text is enough</h3><p>Given only the question and options, Qwen3-VL-8B and DeepSeek-Flash answer this share of 4,276 benchmark questions correctly.</p></div>
+        </div>
+        <figure class="card chart-card" aria-labelledby="input-caption">
+          <div class="chart-head">
+            <h3>More history does not help on existing benchmarks. On TwinPast it is required.</h3>
+            <div class="segmented" role="group" aria-label="Model" id="input-model">
+              <button type="button" aria-pressed="true" data-model="Qwen3-VL-8B">Qwen3-VL-8B</button><button type="button" aria-pressed="false" data-model="DeepSeek-Flash">DeepSeek-Flash</button>
+            </div>
+          </div>
+          <div class="input-chart" id="input-chart"></div>
+          <figcaption id="input-caption">Score (%) by model input. On both existing benchmarks, four recent frames beat up to 64 frames sampled from the whole video. On TwinPast the order reverses: with four recent frames Qwen3-VL-8B reaches 42.00% individual accuracy and solves no pair. Paper Tables 1 and 2.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band" id="benchmark" aria-labelledby="benchmark-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="benchmark-title">Two histories, one shared recent suffix</h2>
+          <p>Each pair holds everything fixed except the earlier events.</p>
+        </header>
+        <div class="design">
+          <div class="prose">
+            <p>A pair consists of two videos, <span class="math"><i>V</i><sup>A</sup> = <i>P</i> ⊕ <i>H</i><sup>A</sup> ⊕ <i>R</i></span> and <span class="math"><i>V</i><sup>B</sup> = <i>P</i> ⊕ <i>H</i><sup>B</sup> ⊕ <i>R</i></span>: an optional common prefix, two different histories, and a shared recent suffix whose frames are identical. Both videos receive the same question, the same ordered options and the same query time. Their correct answers differ, and each video is evaluated independently.</p>
+            <p><strong>PairAcc</strong> is the share of pairs with both answers correct. <strong>Acc.</strong> credits each answer separately, so answering every pair with one fixed option can score 50% Acc. on two-option pairs and still 0% PairAcc.</p>
+          </div>
+          <div class="schema" role="img" aria-label="Both videos consist of a common prefix, then history A or history B, then the same shared suffix, followed by the same question. The correct answers differ.">
+            <div class="schema-row"><span class="s-name a"><i>V</i><sup>A</sup></span><span class="seg p"><span class="lbl">Prefix </span><i>P</i></span><span class="seg ha"><span class="lbl">History </span><i>H</i><sup>A</sup></span><span class="seg r"><span class="lbl">Shared suffix </span><i>R</i></span><span class="seg q">Q</span><span class="s-ans a"><span class="lbl">answer </span><i>y</i><sup>A</sup></span></div>
+            <div class="schema-row"><span class="s-name b"><i>V</i><sup>B</sup></span><span class="seg p"><span class="lbl">Prefix </span><i>P</i></span><span class="seg hb"><span class="lbl">History </span><i>H</i><sup>B</sup></span><span class="seg r"><span class="lbl">Shared suffix </span><i>R</i></span><span class="seg q">Q</span><span class="s-ans b"><span class="lbl">answer </span><i>y</i><sup>B</sup></span></div>
+            <p class="schema-note"><span>identical</span><span class="differs">differs</span><span>identical</span><span class="differs">differs</span></p>
+          </div>
+        </div>
+        <dl class="tiles">
+          <div><dt>Size</dt><dd>350 pairs, 700 videos at 640×360, 24 fps, no audio</dd></div>
+          <div><dt>Length</dt><dd>58 s on average. The shared suffix has a median of 30 s and is never shorter than 5 s</dd></div>
+          <div><dt>Review</dt><dd>Every pair, question and answer key inspected by a human reviewer</dd></div>
+          <div><dt>Sources</dt><dd>MVP, DyBench, ReCo-Data, DualityVidQA, VidPair-Halluc, Perception Test, Breakfast, Eidon Tracker POV, IKEA ASM, HoloAssist</dd></div>
+        </dl>
+
+        <h3 class="sub" id="examples">Watch example pairs from the five tasks</h3>
+        <div class="explorer card" id="pair-panel">
+          <div class="tabs" role="tablist" aria-label="Historical tasks" id="task-tabs">
+          <button role="tab" id="tab-AIR" aria-controls="tab-panel" aria-selected="true" data-task="AIR"><strong>AIR</strong><span>Attribute and identity recall</span><small>92 pairs</small></button>
+          <button role="tab" id="tab-HSR" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="HSR"><strong>HSR</strong><span>Historical state recall</span><small>77 pairs</small></button>
+          <button role="tab" id="tab-EOR" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="EOR"><strong>EOR</strong><span>Event order reasoning</span><small>65 pairs</small></button>
+          <button role="tab" id="tab-HAC" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="HAC"><strong>HAC</strong><span>Historical action counting</span><small>57 pairs</small></button>
+          <button role="tab" id="tab-MEI" aria-controls="tab-panel" aria-selected="false" tabindex="-1" data-task="MEI"><strong>MEI</strong><span>Multi-event integration</span><small>59 pairs</small></button>
+        </div>
+          <div class="tab-panel" id="tab-panel" role="tabpanel" aria-labelledby="tab-AIR">
+          <p class="task-description" id="task-description"></p>
+          <div class="example-selector" id="example-selector" hidden><span>Example</span><div id="example-buttons" role="group" aria-label="Examples within this task"></div></div>
+          <div class="question">
+            <p class="question-label">Question for both videos</p>
+            <p class="question-text" id="question-text"></p>
+            <ol class="question-options" id="question-options" type="A"></ol>
+          </div>
+          <div class="video-grid">
+            <figure class="video-card a"><figcaption>History A</figcaption><div class="video-box"><video id="video-a" playsinline muted preload="none" aria-label="Video with history A"></video><button class="video-overlay" data-play aria-label="Play both videos"><span aria-hidden="true"></span></button></div></figure>
+            <figure class="video-card b"><figcaption>History B</figcaption><div class="video-box"><video id="video-b" playsinline muted preload="none" aria-label="Video with history B"></video><button class="video-overlay" data-play aria-label="Play both videos"><span aria-hidden="true"></span></button></div></figure>
+          </div>
+          <div class="player">
+            <button class="play-button" id="play-pair" type="button">Play both</button>
+            <span class="time"><span id="elapsed">0:00</span> / <span id="duration">0:00</span></span>
+            <div class="timeline" id="timeline-track"><input id="timeline" type="range" min="0" max="45" step="0.1" value="0" aria-label="Seek both videos"></div>
+            <label class="speed"><span class="visually-hidden">Playback speed</span><select id="playback-rate"><option value="1">1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
+          </div>
+          <div class="player-legend">
+            <button type="button" class="legend-jump hist" id="jump-evidence"><i aria-hidden="true"></i>History, differs between A and B</button>
+            <button type="button" class="legend-jump shared" id="jump-shared"><i aria-hidden="true"></i>Shared recent suffix, identical frames</button>
+            <span id="player-status" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+        <p class="figure-note">Eight of the 350 pairs, full length. The two labels under the timeline jump to the deciding evidence and to the start of the shared suffix.</p>
+      </div>
+    </section>
+
+    <section class="band tinted" id="results" aria-labelledby="results-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="results-title">Streaming systems solve at most 49% of pairs</h2>
+          <p>We evaluate 34 model and input configurations. The pairs are solvable, and the headroom for streaming systems is large.</p>
+        </header>
+        <div class="trio">
+          <div class="card stat stream"><p class="kicker">Strongest streaming system</p><p class="big">49.14%</p><p>Qwen3.8-Omni-Flash-Realtime. The eleven streaming systems range from 0.29% to 49.14% PairAcc.</p></div>
+          <div class="card stat general"><p class="kicker">General-purpose MLLMs</p><p class="big">66.57–91.43%</p><p>Nine models that receive each complete video through their native video APIs.</p></div>
+          <div class="card stat human"><p class="kicker">Humans</p><p class="big">88.29%</p><p>With replay. 65.43% when they watch once and see the question only at query time.</p></div>
+        </div>
+
+        <figure class="card chart-card" aria-labelledby="outcome-caption">
+          <div class="chart-head">
+            <h3>What happens to each of the 350 pairs</h3>
+            <div class="chart-legend" aria-hidden="true">
+              <span><i class="k-both"></i>Both answers correct (PairAcc)</span>
+              <span><i class="k-diff"></i>Different answers, not both correct</span>
+              <span><i class="k-same"></i>Same or unresolved answer</span>
+            </div>
+          </div>
+          <div id="outcome-chart" class="outcome-chart"></div>
+          <figcaption id="outcome-caption">Share of pairs (%). The first two segments together are <em>D</em>, the share of pairs that receive two different valid answers. Numbers on the right are PairAcc. Offline runs of the streaming models are in the full table below. Paper Table 2.</figcaption>
+        </figure>
+
+        <div class="finding">
+          <div class="prose">
+            <h3>They fail mainly by giving both histories the same answer</h3>
+            <p>Streaming systems give different valid answers on at most 57.14% of pairs; the general-purpose models do so on 78.57–93.71%. When streaming systems do answer differently, both answers are usually correct (69.17–86.00% of such pairs for nine of the eleven systems).</p>
+            <p>The same holds inside one model family. The realtime variant of Qwen3.8-Omni-Flash trails the non-realtime one by 33.72 points, mostly because it gives different answers on fewer pairs, not because those answers are less often correct.</p>
+          </div>
+          <figure class="card mini" aria-labelledby="family-caption">
+            <p class="mini-title">Qwen3.8-Omni-Flash <span><i class="k-rt"></i>Realtime</span><span><i class="k-nrt"></i>Non-realtime</span></p>
+            <div class="hbars">
+              <p>PairAcc</p><div><span class="hbar rt" style="--v:49.14%">49.14</span><span class="hbar nrt" style="--v:82.86%">82.86</span></div>
+              <p><em>D</em>, different answers</p><div><span class="hbar rt" style="--v:57.14%">57.14</span><span class="hbar nrt" style="--v:89.14%">89.14</span></div>
+              <p><em>C</em>, both correct when different</p><div><span class="hbar rt" style="--v:86%">86.00</span><span class="hbar nrt" style="--v:92.95%">92.95</span></div>
+            </div>
+            <figcaption id="family-caption">PairAcc = <em>D</em> × <em>C</em>. The gap is mostly in <em>D</em>. Paper Table 2.</figcaption>
+          </figure>
+        </div>
+
+        <figure class="card chart-card" aria-labelledby="task-caption">
+          <div class="chart-head">
+            <h3>Counting and multi-event questions are the hardest</h3>
+            <div class="chart-legend" aria-hidden="true">
+              <span><i class="k-stream"></i>Streaming system</span>
+              <span><i class="k-general"></i>General-purpose MLLM</span>
+              <span><i class="k-human"></i>Human, offline replay</span>
+            </div>
+          </div>
+          <div id="task-chart" class="task-chart"></div>
+          <figcaption id="task-caption">PairAcc (%) by task; each mark is one system. No streaming system exceeds 15.8% on action counting or 25.4% on multi-event integration, and in counting they give both histories the same answer on 73.7–100% of pairs. Hover or focus a mark to follow one system across tasks. Paper Figure 3.</figcaption>
+        </figure>
+
+        <div class="finding">
+          <div class="prose">
+            <h3>Paired success depends on the annotated evidence</h3>
+            <p>On a task-balanced subset of 175 pairs we mask the annotated answer-determining regions of the history, or an equal area elsewhere in the same frames. Across 23 configurations, non-critical masking changes PairAcc by at most 3.43 points, while critical masking leaves at most 18.86%.</p>
+            <p>Solving a pair therefore requires the specific historical evidence, not just a longer input.</p>
+          </div>
+          <figure class="card mini" aria-labelledby="mask-caption">
+            <div class="table-scroll" tabindex="0" role="region" aria-label="PairAcc under evidence masking">
+              <table class="mask-table">
+                <thead><tr><th scope="col">Model</th><th scope="col">Original</th><th scope="col">Non-critical masked</th><th scope="col">Critical masked</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Qwen3.8-Omni-Flash</th><td style="--v:82.86%">82.86</td><td style="--v:81.71%">81.71</td><td class="drop" style="--v:12%">12.00</td></tr>
+                  <tr><th scope="row">Qwen3.8-Omni-Flash-Realtime</th><td style="--v:47.43%">47.43</td><td style="--v:49.14%">49.14</td><td class="drop" style="--v:2.86%">2.86</td></tr>
+                  <tr><th scope="row">Qwen3-VL-8B, offline</th><td style="--v:33.71%">33.71</td><td style="--v:32%">32.00</td><td class="drop" style="--v:1.14%">1.14</td></tr>
+                  <tr><th scope="row">StreamForest</th><td style="--v:33.14%">33.14</td><td style="--v:32.57%">32.57</td><td class="drop" style="--v:4.57%">4.57</td></tr>
+                  <tr><th scope="row">ReKV</th><td style="--v:25.14%">25.14</td><td style="--v:24.57%">24.57</td><td class="drop" style="--v:1.14%">1.14</td></tr>
+                  <tr><th scope="row">OneStreamer</th><td style="--v:21.14%">21.14</td><td style="--v:24%">24.00</td><td class="drop" style="--v:0%">0.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <figcaption id="mask-caption">PairAcc (%) on the same 175 pairs. Paper Table 3.</figcaption>
+          </figure>
+        </div>
+
+        <div class="finding">
+          <div class="prose">
+            <h3>Paired success falls as the evidence moves away from the query</h3>
+            <p>Two further settings change only how far the deciding evidence lies from the query, on all 350 pairs. Removing the shared suffix puts the query right after the history. Inserting the same neutral, content-free segment of 30 to 600 s into both videos pushes it further away.</p>
+            <p>An offline reference that keeps every sampled frame in context stays between 41.14% and 46.29% throughout, so the pairs remain answerable. The streaming systems lose paired success in different ways: ReKV and StreamForest decline gradually, OneStreamer drops within the first 30 s and then levels off, and MiniCPM-o 4.5 holds for a minute and then falls to 9.14%.</p>
+            <p>Removing the suffix helps most where the history must pass through a compressed or selected memory: +26.00 points for OneStreamer, +11.71 for StreamForest and +5.71 for ReKV, against +2.57 for the reference.</p>
+          </div>
+          <figure class="card mini" aria-labelledby="distance-caption">
+            <p class="mini-title">PairAcc by distance between evidence and query</p>
+            <div class="distance-chart" id="distance-chart"></div>
+            <figcaption id="distance-caption">PairAcc (%) on all 350 pairs; the horizontal axis is ordinal, not to scale. Select a system to read its values. Original scores come from a rerun for this experiment (StreamForest 35.14 here, 35.43 in the main table). The reference is Qwen3-VL-4B with the full history at 1 fps and is not comparable to the Qwen3-VL-8B rows. At +600 s the input of MiniCPM-o 4.5 exceeds the model's configured length. Paper Tables S4 and S5.</figcaption>
+          </figure>
+        </div>
+
+        <details class="full-table card" id="full-results">
+        <summary>Full results for all 34 configurations and 2 human references</summary>
+        <p class="table-note">Task columns and Acc. measure individual answers; PairAcc requires both. <em>D</em>: pairs with two different valid answers. <em>C</em>: share of those with both correct, so PairAcc = <em>D</em> × <em>C</em>. <em>R</em>: fully reversed pairs. <em>S</em> = PairAcc − <em>R</em>. <a href="assets/results.csv" download="twinpast-table-2.csv">Download as CSV</a>.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Full TwinPast results; scroll horizontally for all columns">
+          <table id="results-table" class="results-table">
+            <thead><tr><th scope="col">System / model</th><th scope="col">AIR</th><th scope="col">HSR</th><th scope="col">EOR</th><th scope="col">HAC</th><th scope="col">MEI</th><th scope="col">Acc.</th><th scope="col" class="pair-column">PairAcc</th><th scope="col"><em>D</em></th><th scope="col"><em>C</em></th><th scope="col"><em>R</em></th><th scope="col"><em>S</em></th></tr></thead>
+            <tbody id="results-body"></tbody>
+          </table>
+        </div>
+      </details>
+      </div>
+    </section>
+
+    <section class="band" id="cases" aria-labelledby="cases-title">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="cases-title">Errors with the evidence still available</h2>
+          <p>An identical answer suggests that the distinguishing evidence was lost before the query. That is not the only cause. In the two cases below the evidence reaches the answering step and the answer still contradicts it.</p>
+        </header>
+        <article class="case card" aria-labelledby="rekv-title">
+        <header><h3 id="rekv-title">ReKV: frames retained, wrong moment reported</h3>
+        <p class="case-question"><span>Question</span>Before the oven-cleaning close-up, was the oven door open or closed <strong>when the first kitchen shot ended</strong>?</p></header>
+        <div class="case-rows">
+          <div class="case-row a">
+            <p class="case-branch">History A</p>
+            <div class="strip strip-5">
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV, history A, 0 s"><img src="assets/evidence/history/rekv-A-0s.png" width="640" height="360" loading="lazy" alt="History A at 0 s: the oven door is open"></button><figcaption>0 s <span>open</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV, history A, 1 s"><img src="assets/evidence/history/rekv-A-1s.png" width="640" height="360" loading="lazy" alt="History A at 1 s: the door is being closed"></button><figcaption>1 s</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV, history A, 2 s"><img src="assets/evidence/history/rekv-A-2s.png" width="640" height="360" loading="lazy" alt="History A at 2 s: the door is closed"></button><figcaption>2 s</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV, history A, 3 s"><img src="assets/evidence/history/rekv-A-3s.png" width="640" height="360" loading="lazy" alt="History A at 3 s: the door is closed"></button><figcaption>3 s</figcaption></figure>
+              <figure class="queried"><button type="button" class="frame-open" data-frame-group="rekv-A" data-frame-title="ReKV, history A, 4 s"><img src="assets/evidence/history/rekv-A-4s.png" width="640" height="360" loading="lazy" alt="History A at 4 s, the end of the shot: the door is closed"></button><figcaption>4 s <span>closed, shot ends</span></figcaption></figure>
+            </div>
+            <dl class="verdict"><div><dt>Correct</dt><dd>Closed</dd></div><div class="wrong"><dt>ReKV</dt><dd>Open</dd></div></dl>
+          </div>
+          <div class="case-row b">
+            <p class="case-branch">History B</p>
+            <div class="strip strip-5">
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV, history B, 0 s"><img src="assets/evidence/history/rekv-B-0s.png" width="640" height="360" loading="lazy" alt="History B at 0 s: the oven door is closed"></button><figcaption>0 s <span>closed</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV, history B, 1 s"><img src="assets/evidence/history/rekv-B-1s.png" width="640" height="360" loading="lazy" alt="History B at 1 s: the door is closed"></button><figcaption>1 s</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV, history B, 2 s"><img src="assets/evidence/history/rekv-B-2s.png" width="640" height="360" loading="lazy" alt="History B at 2 s: the door starts to open"></button><figcaption>2 s</figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV, history B, 3 s"><img src="assets/evidence/history/rekv-B-3s.png" width="640" height="360" loading="lazy" alt="History B at 3 s: the door is open"></button><figcaption>3 s</figcaption></figure>
+              <figure class="queried"><button type="button" class="frame-open" data-frame-group="rekv-B" data-frame-title="ReKV, history B, 4 s"><img src="assets/evidence/history/rekv-B-4s.png" width="640" height="360" loading="lazy" alt="History B at 4 s, the end of the shot: the door is open"></button><figcaption>4 s <span>open, shot ends</span></figcaption></figure>
+            </div>
+            <dl class="verdict"><div><dt>Correct</dt><dd>Open</dd></div><div class="wrong"><dt>ReKV</dt><dd>Closed</dd></div></dl>
+          </div>
+        </div>
+        <p class="case-note">ReKV samples every 2 s, and all eight sampled frames of each history, including those at 0 s and 4 s, are supplied to the answering step. Its answers do change with the history, but each reports the initial state instead of the queried one, so the pair is fully reversed.</p>
+      </article>
+        <article class="case card" aria-labelledby="one-title">
+        <header><h3 id="one-title">OneStreamer: order recorded in memory, answer reversed</h3>
+        <p class="case-question"><span>Question</span>In the packing scene at the dark table, which object was put into the tall cardboard box <strong>earlier</strong>: the black hairbrush or the clear trigger spray bottle?</p></header>
+        <div class="case-rows">
+          <div class="case-row a">
+            <p class="case-branch">History A</p>
+            <div class="strip strip-4">
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer, history A, 6 s"><img src="assets/evidence/history/onestreamer-A-6s.png" width="640" height="360" loading="lazy" alt="At 6 s the person picks up the spray bottle; the hairbrush is on the table"></button><figcaption>6 s <span>spray bottle picked up</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer, history A, 7 s"><img src="assets/evidence/history/onestreamer-A-7s.png" width="640" height="360" loading="lazy" alt="At 7 s the spray bottle is in the box; the hairbrush is still on the table"></button><figcaption>7 s <span>bottle in the box</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer, history A, 9 s"><img src="assets/evidence/history/onestreamer-A-9s.png" width="640" height="360" loading="lazy" alt="At 9 s the person picks up the hairbrush"></button><figcaption>9 s <span>hairbrush picked up</span></figcaption></figure>
+              <figure><button type="button" class="frame-open" data-frame-group="one-A" data-frame-title="OneStreamer, history A, 10 s"><img src="assets/evidence/history/onestreamer-A-10s.png" width="640" height="360" loading="lazy" alt="At 10 s the hairbrush is placed in the box"></button><figcaption>10 s <span>hairbrush in the box</span></figcaption></figure>
+            </div>
+            <dl class="verdict"><div><dt>Correct</dt><dd>Spray bottle</dd></div><div class="wrong"><dt>OneStreamer</dt><dd>Hairbrush</dd></div></dl>
+          </div>
+        </div>
+        <div class="memory">
+          <p class="memory-title">OneStreamer's own text memory at the final query</p>
+          <blockquote><span>2–7 s</span>“The person picks up a small white jar with a blue label, a white roll-on deodorant, and a <strong>clear spray bottle</strong> with a white pump, placing each into the box in turn.”</blockquote>
+          <blockquote><span>7–10 s</span>“The person picks up a <strong>black hairbrush</strong> with a grey handle from the table and places it into the box.”</blockquote>
+        </div>
+        <p class="case-note">The memory records both placements in the right order, and the answer contradicts it. Retaining the evidence is not sufficient; the answering step must also connect it to the temporal reference in the question.</p>
+      </article>
+        <div class="more-cases">
+          <div class="card"><p class="kicker">AURA · multi-event integration</p><p>In 13 of the 46 multi-event pairs whose options combine two binary facts, AURA tracks the change in one fact and repeats the other, although both change.</p></div>
+          <div class="card"><p class="kicker">VideoLLM-online · action counting</p><p>Asked how many complete claps occur before a scene transition, it replies “You clap your hands” to both the six-clap and the nine-clap history. It names the action and gives no count.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band tinted" id="citation" aria-labelledby="citation-title">
+      <div class="wrap">
+        <header class="section-head"><h2 id="citation-title">Citation</h2></header>
+        <div class="bibtex">
+          <button type="button" id="copy-citation" hidden>Copy BibTeX</button>
+          <pre tabindex="0" aria-label="BibTeX entry"><code id="citation-bibtex">@misc{yang2026twinpastbenchmarkinghistoricalevidence,
   title={TwinPast: Benchmarking Historical Evidence Use in Streaming Video Understanding with Evidence Contrastive Video Pairs},
   author={Haotian Yang and Yong Chen and Cheng Peng and Haobo Wang and Zhongle Xie and Xuanru Li and Gang Chen},
   year={2026},
@@ -241,12 +384,24 @@
   primaryClass={cs.CV},
   url={https://arxiv.org/abs/2610.41983},
 }</code></pre>
-        <p class="citation-status" id="citation-status" role="status" aria-live="polite"></p>
-      </section>
+        </div>
+        <p class="copy-status" id="citation-status" role="status" aria-live="polite"></p>
+      </div>
     </section>
   </main>
-  <footer class="site-footer"><div class="wrap"><a class="wordmark" href="#">TwinPast<span class="wordmark-dot">.</span></a><p>Retain the evidence. Use it at the right time.</p><a href="#" class="back-top">Back to top ↑</a></div></footer>
-  <dialog class="evidence-viewer" id="evidence-viewer" aria-labelledby="evidence-viewer-title"><div class="viewer-heading"><h2 id="evidence-viewer-title">Historical frame</h2><button type="button" id="evidence-viewer-close" aria-label="Close enlarged frame">Close <span aria-hidden="true">×</span></button></div><img id="evidence-viewer-image" alt="" width="640" height="360"><div class="viewer-navigation"><button type="button" id="evidence-frame-previous" aria-label="Previous frame">← Previous</button><p id="evidence-viewer-position" role="status" aria-live="polite"></p><button type="button" id="evidence-frame-next" aria-label="Next frame">Next →</button></div></dialog>
-  <noscript><p class="noscript">Enable JavaScript to explore synchronized videos and the results table. Results are also available in <a href="assets/results.csv">CSV format</a>.</p></noscript>
+
+  <footer class="page-foot">
+    <div class="wrap">
+      <a class="brand" href="#top"><img src="assets/favicon.svg?v=2" width="26" height="26" alt="">TwinPast</a>
+      <nav aria-label="Resources"><a href="https://arxiv.org/abs/2610.41983" target="_blank" rel="noopener noreferrer">Paper</a><a href="https://github.com/Yh1zzzzzzz/TwinPast_code" target="_blank" rel="noopener noreferrer">Code</a><a href="https://huggingface.co/datasets/younght/TwinPast" target="_blank" rel="noopener noreferrer">Dataset</a><a href="#top">Back to top</a></nav>
+    </div>
+  </footer>
+
+  <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
+    <div class="viewer-head"><p id="viewer-title"></p><button type="button" id="viewer-close">Close</button></div>
+    <img id="viewer-image" alt="" width="640" height="360">
+    <div class="viewer-nav"><button type="button" id="viewer-prev">Previous</button><span id="viewer-position" role="status" aria-live="polite"></span><button type="button" id="viewer-next">Next</button></div>
+  </dialog>
+  <noscript><p class="noscript">The video player, charts and full table need JavaScript. The results are also available as <a href="assets/results.csv">CSV</a>.</p></noscript>
 </body>
 </html>

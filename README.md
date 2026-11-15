@@ -1,5 +1,27 @@
 # TwinPast project page
 
+## 中英文版本（2026-11-15 发布版本）
+
+- 页面顶部主导航提供 `English / 中文` 切换，滚动时保持可见。英文入口为 `dist/index.html`，简体中文入口为 `dist/zh.html`；切换时保留当前阅读章节。
+- 两版共用 `site.css` 和 `site.js`，保持相同的页面结构、图片、视频与图表布局。中文版翻译正文、图注、交互提示、无障碍标签和 8 对视频问答；模型名称、实验数值、答案键及正式 BibTeX 保持不变。模型文本记忆的翻译明确标注为中文译文。
+- `scripts/translations-zh.json` 保存中文译文；`scripts/build_locales.py` 以英文页为模板生成 `dist/zh.html` 和 `dist/locale-zh.js`。更新英文页面或译文后运行 `npm run build-locales`，不要直接修改这两个生成文件。
+- `npm run check` 同时检查脚本语法、中文页面是否同步，以及全部视频对的翻译覆盖情况。两版均支持本地直接打开；GitHub Pages 使用相同的 `dist/` 发布目录。
+- 2026-11-15：用户审核后明确确认，将当前中英文版本一并发布到 GitHub Pages。[英文入口](https://yh1zzzzzzz.github.io/twinpast/)；[中文入口](https://yh1zzzzzzz.github.io/twinpast/zh.html)。
+
+## 2026-11-13 改版（纳入 2026-11-15 发布版本）
+
+依据 `TwinPast_Overleaf/draft_with_appendix.pdf` 重写页面，目的是让访问者在首屏看懂论文在做什么，并去掉营销落地页式的写法。本节描述当前页面；下文更早的记录保留作历史参考，其中提到的 `style.css`、`project.css`、`story.css`、`evidence.css`、`app.js`、`project.js`、`evidence.js` 和 Lora 字体已删除（Git 历史中可找回）。
+
+- 同日第二轮（用户反馈第一轮过于简陋）：保留上述结构与文案，重做视觉。配色取自 `assets/favicon.svg` 与 `TwinPast_website_assets` 的概念图（深蓝 #172B42、History A 蓝、History B 玫红）；新增吸顶导航与分节高亮、大字标首屏与四项规模数字、胶片条样式的配对设计图（`dist/assets/teaser/` 的 9 张帧由 `AIR-A/B.mp4` 在 5/9/14.5 s、5/9/13 s 及共享段 18/30/38 s 处抽取并缩放为 480×270，未做其他修改）、三张关键数字卡、输入对照柱状图（可切换模型，替代原表格）、V^A/V^B 结构示意、Qwen3.8-Omni-Flash 同家族 D/C 对比条、遮挡表数据条、案例胶片条。图表条形在进入视口时有一次展开动画，系统设置减少动态效果时关闭。
+- 2026-11-15：按用户确认，依据当天更新的 `draft_with_appendix.pdf` 附录 D 加入“证据与提问的距离”一块（结果一节，遮挡实验之后）。一张折线图合并 Table S4（去掉共享后缀）与 Table S5（插入 30/60/180/600 s 中性片段），横轴为六个有序档位，非等比例；数值写在 `site.js` 的 `distanceSeries` 中，论文更新时需手动同步。图注注明原始分为该实验的重跑结果（StreamForest 35.14，主表为 35.43）、离线参考为 Qwen3-VL-4B、MiniCPM-o 4.5 在 +600 s 超出模型配置长度。此前因公开 arXiv 版尚无附录而暂缓发布；2026-11-15 用户审核后明确确认，将包含本节的当前中英文版本一并发布。
+- 文件：`dist/index.html`（结构与文案）、`dist/site.css`（全部样式）、`dist/site.js`（视频播放器、两张图、完整表格、帧放大、BibTeX 复制）。`cases.js`、`results.js` 仍是数据来源，生成方式不变。
+- 页面顺序：论文标题与资源链接 → 一句话概括 → 配对设计图（AIR 舞者案例的三张原帧）→ 三点摘要与论文摘要 → Correct answers without history（§3，Table 1/2 的输入对照表）→ TwinPast 设计与视频案例（§4）→ 结果（§5：配对结果堆叠条形图、分任务点图、遮挡实验 Table 3、完整 Table 2）→ 证据仍在却答错（§6.2 的 ReKV、OneStreamer）→ BibTeX。
+- 配对结果图由 `results.js` 的 PairAcc 与 D 绘制：深色为两支均对，浅色为 D − PairAcc，灰色为 100 − D。分任务点图的数值取自论文 Figure 3，写在 `site.js` 的 `taskPairAcc` 中，论文更新时需手动同步。
+- 输入对照表直接使用论文 Table 1 的 OVO-Bench Avg 与 StreamingBench Real-Time Avg，不再使用旧版自行按题量合并的 StreamingBench Avg。
+- 删除的交互：首屏历史/近期帧切换、三种答案模式演示、答案揭示按钮、模型下拉、表格搜索/筛选/排序、全屏按钮。答案现在直接标在选项后。
+- `scripts/results-paper.json` 的 Human (streaming) 行改为当前稿 Table 2 的数值：PairAcc 65.43、D 70.86、C 92.34、S 65.43（原为 65.29、70.91、92.07、65.29）。其余 35 行与当前稿一致。组名改用论文的写法。
+- 仍按此前审核意见不展示作者与单位。
+
 英文静态展示页，输出目录为 `dist/`。无需安装前端依赖，无账号、数据库或后端。按用户审核意见，页面不单独展示作者与单位；页末 BibTeX 引用保留完整作者列表。
 
 2026-11-02 按用户要求更新正式入口并发布：[Paper / arXiv](https://arxiv.org/abs/2610.41983)、[Code / GitHub](https://github.com/Yh1zzzzzzz/TwinPast_code)、[Dataset / Hugging Face](https://huggingface.co/datasets/younght/TwinPast)。页末 `#citation` 提供用户给定的完整 BibTeX 与复制按钮。
@@ -14,7 +36,7 @@
 
 本轮版本已于 2026-10-30 经用户审核并明确批准发布。审核版本保存在 `review/story-update-20261030`，通过 `main` 分支发布到 GitHub Pages；后续更新仍先提供本地审核。
 
-修改前完整备份（含视频）保存在项目外的 `../TwinPast-backups/2026-10-30-before-story-update/TwinPast-website.tar.gz`；同目录的 `backup-info.json` 保存原提交 `21a66fede30cf8226bbed9ce44d9b780e16b98ea`、文件数和 SHA-256。恢复时先解压到独立目录检查。
+2026-11-13 按用户要求删除项目外的旧版本备份、审核源文件备份和预览截图，并清理本项目 `.qa/` 中的旧审核截图。当前网站、Git 历史、个人主页和原始设计素材保留。
 
 ## 证据使用案例
 
@@ -23,7 +45,6 @@
 - 历史胶片直接复制本地 `TwinPast_Overleaf/figures/Case_study/section62_key_frames_1fps 2` 的 22 张原始 PNG：ReKV A/B 各 0–4 秒，OneStreamer A 为 0–11 秒。图片内容未修改。来源文件、视频帧索引和校验值记录于 `scripts/evidence-cases.json`。
 - 1 fps 是网页历史回放的展示采样率。原始证据元数据 `figures/source/evidence_use_single_column_v8/assets/evidence/original_evidence_metadata.json` 确认 ReKV 实际采样时间为 0、2、4、6、8、10、12、14 秒，8/8 候选帧均返回。网页的答题证据区只展示其中与问题相关的 0、2、4 秒原帧，明确标为相关返回帧，没有把历史胶片误标为模型全部检索帧。旧版网页使用的 Figure 4 内 1–8 秒示意条不再用作“全部模型采样帧”的展示。
 - OneStreamer 展示元数据中最终 QA 文本记忆的两段原句，保留论文引用的生成时间区间 2–7 秒、7–10 秒；只显示论文讨论的 A 分支，答案为 hairbrush，正确答案为 spray bottle。
-- 本轮改动前的审核源文件和证据图备份于 `../TwinPast-backups/2026-10-30-before-evidence-flow/review-source.zip`。论文原文件未修改。
 
 ## 预览
 
