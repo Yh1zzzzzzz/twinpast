@@ -1,5 +1,11 @@
 # TwinPast project page
 
+## 访问统计（2026-11-16）
+
+- 中英文页面共用用户提供的 Cloudflare Web Analytics 统计代码，安装在 `dist/index.html` 的 `</body>` 前。运行 `npm run build-locales` 会将同一段代码同步到 `dist/zh.html`，不需要分别配置两个统计站点。
+- 在 [Cloudflare Web Analytics 后台](https://dash.cloudflare.com/?to=/:account/web-analytics) 选择 `yh1zzzzzzz.github.io` 查看数据。按 Path 筛选时，英文入口包括 `/twinpast/` 和 `/twinpast/index.html`，中文入口为 `/twinpast/zh.html`。
+- 数据从接入上线后开始累计，无法补回此前未记录的访问。网页中的 beacon token 是公开的网站统计标识，不是账户 API 密钥。
+
 ## 视频概览（2026-11-15）
 
 - 首屏标题区与配对设计图之间新增视频卡片（`#video`），按钮组新增视频平台入口：英文页为 YouTube，中文页为 bilibili（用 `.only-en` / `.only-zh` 按页面语言显示）。英文页播放 `dist/assets/video/twinpast-overview-en.mp4`（3:31），中文页播放 `twinpast-overview-zh.mp4`（3:34）；两者均为烧录字幕加配乐的 H.264 MP4，片尾标题页含作者与单位。为减轻国内访问 GitHub Pages 时的卡顿，网页版用 x264 veryslow、`-tune animation`、CRF 23（峰值 900 kbps）与 128 kbps AAC 重编码，总码率约 400 kbps（原 685 kbps），画面与原片肉眼无差；地址带 `?v=2` 以免浏览器混用旧文件的缓存分段。
